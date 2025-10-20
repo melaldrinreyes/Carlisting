@@ -21,39 +21,12 @@ const Navbar = () => {
     };
   }, [isMobileMenuOpen]);
 
-  useEffect(() => {
-    // Prevent swipe gestures from opening menu
-    const preventSwipe = (e) => {
-      // Don't prevent if clicking on menu toggle button or overlay
-      if (e.target.closest('.mobile-menu-toggle') || 
-          e.target.closest('.mobile-menu-overlay') ||
-          e.target.closest('.navbar-menu')) {
-        return;
-      }
-      
-      // Disable swipe-to-open behavior
-      if (e.touches && e.touches.length > 0) {
-        const touch = e.touches[0];
-        const startX = touch.clientX;
-        
-        // Prevent swipe from right edge only when menu is closed
-        if (startX > window.innerWidth - 50 && !isMobileMenuOpen) {
-          e.preventDefault();
-        }
-      }
-    };
-
-    document.addEventListener('touchstart', preventSwipe, { passive: false });
-
-    return () => {
-      document.removeEventListener('touchstart', preventSwipe);
-    };
-  }, [isMobileMenuOpen]);
-
   const toggleMobileMenu = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setIsMobileMenuOpen(prev => !prev);
   };
 
   const closeMobileMenu = (e) => {
@@ -64,9 +37,15 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const handleMenuClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeMobileMenu();
+  };
+
   const handleLogout = () => {
     logout();
-    closeMobileMenu();
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -80,11 +59,9 @@ const Navbar = () => {
         <button 
           className="mobile-menu-toggle" 
           onClick={toggleMobileMenu}
-          onTouchEnd={(e) => {
-            e.preventDefault();
-            toggleMobileMenu(e);
-          }}
-          aria-label="Toggle menu"
+          type="button"
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMobileMenuOpen}
         >
           {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
         </button>
@@ -93,17 +70,16 @@ const Navbar = () => {
         <div 
           className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}
           onClick={closeMobileMenu}
-          onTouchEnd={(e) => {
-            e.preventDefault();
-            closeMobileMenu(e);
-          }}
+          role="button"
+          tabIndex={-1}
+          aria-label="Close menu"
         ></div>
 
         <ul className={`navbar-menu ${isMobileMenuOpen ? 'active' : ''}`}>
-          <li><a href="#/" onClick={closeMobileMenu}>Home</a></li>
-          <li><a href="#/listings" onClick={closeMobileMenu}>Car Listings</a></li>
-          <li><a href="#/order" onClick={closeMobileMenu}>Order Now</a></li>
-          <li><a href="#/contact" onClick={closeMobileMenu}>Contact</a></li>
+          <li><a href="#/" onClick={handleMenuClick}>Home</a></li>
+          <li><a href="#/listings" onClick={handleMenuClick}>Car Listings</a></li>
+          <li><a href="#/order" onClick={handleMenuClick}>Order Now</a></li>
+          <li><a href="#/contact" onClick={handleMenuClick}>Contact</a></li>
           
           {isAuthenticated ? (
             <>
@@ -119,7 +95,7 @@ const Navbar = () => {
             </>
           ) : (
             <li>
-              <a href="#/login" className="navbar-auth-btn login-btn" onClick={closeMobileMenu}>
+              <a href="#/login" className="navbar-auth-btn login-btn" onClick={handleMenuClick}>
                 Login
               </a>
             </li>
