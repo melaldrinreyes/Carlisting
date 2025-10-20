@@ -3,7 +3,7 @@ export const carsData = [
   {
     id: 1,
     model: "Honda Civic",
-    image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=500&h=300&fit=crop",
     description: "Reliable and fuel-efficient sedan with modern features",
     price: "$25,000"
   },
@@ -38,49 +38,49 @@ export const carsData = [
   {
     id: 6,
     model: "Mercedes-Benz C-Class",
-    image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=500&h=300&fit=crop",
     description: "Elegant luxury car with advanced technology",
     price: "$52,000"
   },
   {
     id: 7,
     model: "Audi A4",
-    image: "https://images.unsplash.com/photo-1610768764270-790fbec18178?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=500&h=300&fit=crop",
     description: "Sophisticated sedan with quattro all-wheel drive",
     price: "$46,500"
   },
   {
     id: 8,
     model: "Chevrolet Corvette",
-    image: "https://images.unsplash.com/photo-1579656592043-a20e25a4aa4b?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=500&h=300&fit=crop",
     description: "American sports car with exceptional performance",
     price: "$65,000"
   },
   {
     id: 9,
     model: "Mazda CX-5",
-    image: "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=500&h=300&fit=crop",
     description: "Stylish SUV with great handling",
     price: "$32,000"
   },
   {
     id: 10,
     model: "Nissan Altima",
-    image: "https://images.unsplash.com/photo-1623869675781-80aa31bcc34e?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=500&h=300&fit=crop",
     description: "Comfortable mid-size sedan with tech features",
     price: "$27,500"
   },
   {
     id: 11,
     model: "Volkswagen Golf",
-    image: "https://images.unsplash.com/photo-1622408210419-59e6273ad89d?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=500&h=300&fit=crop",
     description: "Compact hatchback with European styling",
     price: "$24,000"
   },
   {
     id: 12,
     model: "Hyundai Sonata",
-    image: "https://images.unsplash.com/photo-1619682817881-0c7e5fea9e29?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=500&h=300&fit=crop",
     description: "Value-packed sedan with modern design",
     price: "$26,000"
   }
