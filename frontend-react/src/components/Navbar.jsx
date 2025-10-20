@@ -24,13 +24,18 @@ const Navbar = () => {
   useEffect(() => {
     // Prevent swipe gestures from opening menu
     const preventSwipe = (e) => {
+      // Don't prevent if clicking on menu toggle button
+      if (e.target.closest('.mobile-menu-toggle')) {
+        return;
+      }
+      
       // Disable swipe-to-open behavior
       if (e.touches && e.touches.length > 0) {
         const touch = e.touches[0];
         const startX = touch.clientX;
         
         // Prevent swipe from right edge
-        if (startX > window.innerWidth - 50) {
+        if (startX > window.innerWidth - 50 && !isMobileMenuOpen) {
           e.preventDefault();
         }
       }
@@ -41,7 +46,7 @@ const Navbar = () => {
     return () => {
       document.removeEventListener('touchstart', preventSwipe);
     };
-  }, []);
+  }, [isMobileMenuOpen]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);

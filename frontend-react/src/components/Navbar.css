@@ -198,6 +198,8 @@
   transition: all 0.3s ease;
   z-index: 1003;
   position: relative;
+  pointer-events: auto;
+  touch-action: manipulation;
 }
 
 .mobile-menu-toggle:hover {
@@ -222,11 +224,13 @@
   opacity: 0;
   transition: opacity 0.3s ease;
   backdrop-filter: blur(4px);
+  pointer-events: none;
 }
 
 .mobile-menu-overlay.active {
   display: block;
   opacity: 1;
+  pointer-events: auto;
 }
 
 /* Tablet Responsiveness */
@@ -258,6 +262,7 @@
   .navbar-container {
     padding: 0 1.5rem;
     position: relative;
+    z-index: 1003;
   }
 
   .navbar-logo {
