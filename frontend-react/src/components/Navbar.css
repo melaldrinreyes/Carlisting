@@ -8,6 +8,9 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .navbar-container {
@@ -62,6 +65,8 @@
   position: relative;
   padding-bottom: 0.5rem;
   letter-spacing: 0.5px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .navbar-menu li a::after {

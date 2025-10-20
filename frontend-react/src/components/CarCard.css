@@ -8,6 +8,8 @@
   transition: all 0.3s ease;
   border: 1px solid rgba(245, 158, 11, 0.2);
   position: relative;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .car-card::before {
@@ -44,6 +46,9 @@
   height: 220px;
   object-fit: cover;
   transition: transform 0.5s ease;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
 }
 
 .car-card:hover .car-card-image {

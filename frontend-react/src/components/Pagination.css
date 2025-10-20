@@ -18,6 +18,10 @@
   font-weight: 600;
   font-size: 0.95rem;
   transition: all 0.2s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .pagination-btn:hover:not(:disabled) {
