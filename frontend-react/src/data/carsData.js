@@ -38,21 +38,21 @@ export const carsData = [
   {
     id: 6,
     model: "Mercedes-Benz C-Class",
-    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=500&h=300&fit=crop",
     description: "Elegant luxury car with advanced technology",
     price: "$52,000"
   },
   {
     id: 7,
     model: "Audi A4",
-    image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1610768764270-790fbec18178?w=500&h=300&fit=crop",
     description: "Sophisticated sedan with quattro all-wheel drive",
     price: "$46,500"
   },
   {
     id: 8,
     model: "Chevrolet Corvette",
-    image: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1579656592043-a20e25a4aa4b?w=500&h=300&fit=crop",
     description: "American sports car with exceptional performance",
     price: "$65,000"
   },
@@ -80,7 +80,7 @@ export const carsData = [
   {
     id: 12,
     model: "Hyundai Sonata",
-    image: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1619682817881-0c7e5fea9e29?w=500&h=300&fit=crop",
     description: "Value-packed sedan with modern design",
     price: "$26,000"
   }
