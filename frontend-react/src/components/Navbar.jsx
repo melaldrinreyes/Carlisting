@@ -24,8 +24,10 @@ const Navbar = () => {
   useEffect(() => {
     // Prevent swipe gestures from opening menu
     const preventSwipe = (e) => {
-      // Don't prevent if clicking on menu toggle button
-      if (e.target.closest('.mobile-menu-toggle')) {
+      // Don't prevent if clicking on menu toggle button or overlay
+      if (e.target.closest('.mobile-menu-toggle') || 
+          e.target.closest('.mobile-menu-overlay') ||
+          e.target.closest('.navbar-menu')) {
         return;
       }
       
@@ -34,7 +36,7 @@ const Navbar = () => {
         const touch = e.touches[0];
         const startX = touch.clientX;
         
-        // Prevent swipe from right edge
+        // Prevent swipe from right edge only when menu is closed
         if (startX > window.innerWidth - 50 && !isMobileMenuOpen) {
           e.preventDefault();
         }
@@ -48,11 +50,17 @@ const Navbar = () => {
     };
   }, [isMobileMenuOpen]);
 
-  const toggleMobileMenu = () => {
+  const toggleMobileMenu = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const closeMobileMenu = () => {
+  const closeMobileMenu = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     setIsMobileMenuOpen(false);
   };
 
@@ -69,7 +77,15 @@ const Navbar = () => {
           <h2>AutoDeals</h2>
         </a>
 
-        <button className="mobile-menu-toggle" onClick={toggleMobileMenu} aria-label="Toggle menu">
+        <button 
+          className="mobile-menu-toggle" 
+          onClick={toggleMobileMenu}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            toggleMobileMenu(e);
+          }}
+          aria-label="Toggle menu"
+        >
           {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
         </button>
 
@@ -77,6 +93,10 @@ const Navbar = () => {
         <div 
           className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}
           onClick={closeMobileMenu}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            closeMobileMenu(e);
+          }}
         ></div>
 
         <ul className={`navbar-menu ${isMobileMenuOpen ? 'active' : ''}`}>
