@@ -3,84 +3,84 @@ export const carsData = [
   {
     id: 1,
     model: "Honda Civic",
-    image: "https://images.unsplash.com/photo-1568844293986-8d0400bd4f3e?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2017/03/05/00/34/panorama-2117310_1280.jpg",
     description: "Reliable and fuel-efficient sedan with modern features",
     price: "$25,000"
   },
   {
     id: 2,
     model: "Toyota Camry",
-    image: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2020/05/11/13/53/toyota-5158963_1280.jpg",
     description: "Spacious and comfortable family sedan",
     price: "$28,500"
   },
   {
     id: 3,
     model: "Ford Mustang",
-    image: "https://images.unsplash.com/photo-1584345604476-8ec5f8264ec2?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2016/04/01/12/16/car-1300629_1280.png",
     description: "Powerful sports car with iconic design",
     price: "$45,000"
   },
   {
     id: 4,
     model: "Tesla Model 3",
-    image: "https://images.unsplash.com/photo-1536700503339-1e4b06520771?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2021/01/15/16/49/tesla-5919764_1280.jpg",
     description: "Electric vehicle with autopilot capabilities",
     price: "$42,000"
   },
   {
     id: 5,
     model: "BMW 3 Series",
-    image: "https://images.unsplash.com/photo-1617531653520-bd6d41e1b7d9?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2020/04/10/16/30/bmw-5026961_1280.jpg",
     description: "Luxury sedan with premium features",
     price: "$48,000"
   },
   {
     id: 6,
     model: "Mercedes-Benz C-Class",
-    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2017/03/05/10/44/mercedes-2118651_1280.jpg",
     description: "Elegant luxury car with advanced technology",
     price: "$52,000"
   },
   {
     id: 7,
     model: "Audi A4",
-    image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2016/12/07/21/01/audi-1890438_1280.jpg",
     description: "Sophisticated sedan with quattro all-wheel drive",
     price: "$46,500"
   },
   {
     id: 8,
     model: "Chevrolet Corvette",
-    image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2017/03/27/14/56/auto-2179220_1280.jpg",
     description: "American sports car with exceptional performance",
     price: "$65,000"
   },
   {
     id: 9,
     model: "Mazda CX-5",
-    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2020/12/27/20/25/car-5865835_1280.jpg",
     description: "Stylish SUV with great handling",
     price: "$32,000"
   },
   {
     id: 10,
     model: "Nissan Altima",
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2016/11/18/14/39/car-1834279_1280.jpg",
     description: "Comfortable mid-size sedan with tech features",
     price: "$27,500"
   },
   {
     id: 11,
     model: "Volkswagen Golf",
-    image: "https://images.unsplash.com/photo-1622516337292-5e08e929bee3?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2016/12/03/18/57/golf-1880498_1280.jpg",
     description: "Compact hatchback with European styling",
     price: "$24,000"
   },
   {
     id: 12,
     model: "Hyundai Sonata",
-    image: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2019/07/07/14/03/hyundai-4322985_1280.jpg",
     description: "Value-packed sedan with modern design",
     price: "$26,000"
   }
