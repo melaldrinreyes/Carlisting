@@ -23,24 +23,20 @@ const Navbar = () => {
 
   const toggleMobileMenu = (e) => {
     if (e) {
-      e.preventDefault();
       e.stopPropagation();
     }
     setIsMobileMenuOpen(prev => !prev);
   };
 
-  const closeMobileMenu = (e) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+  const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const handleMenuClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    closeMobileMenu();
+  const handleMenuClick = () => {
+    // Just close the menu, allow navigation to happen
+    setTimeout(() => {
+      setIsMobileMenuOpen(false);
+    }, 100);
   };
 
   const handleLogout = () => {
@@ -70,9 +66,7 @@ const Navbar = () => {
         <div 
           className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}
           onClick={closeMobileMenu}
-          role="button"
-          tabIndex={-1}
-          aria-label="Close menu"
+          aria-hidden="true"
         ></div>
 
         <ul className={`navbar-menu ${isMobileMenuOpen ? 'active' : ''}`}>

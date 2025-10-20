@@ -189,26 +189,31 @@
 /* Mobile Menu Toggle Button */
 .mobile-menu-toggle {
   display: none;
-  background: rgba(245, 158, 11, 0.1);
-  border: 2px solid rgba(245, 158, 11, 0.3);
-  color: #f59e0b;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0.75rem;
-  transition: all 0.3s ease;
-  z-index: 1005;
-  position: fixed;
-  right: 1.5rem;
-  top: 1.25rem;
-  pointer-events: auto;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: rgba(245, 158, 11, 0.2);
-  min-width: 50px;
-  min-height: 50px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(245, 158, 11, 0.1);
+    border: 2px solid rgba(245, 158, 11, 0.3);
+    color: #f59e0b;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+    z-index: 1005;
+    position: fixed;
+    right: 1.5rem;
+    top: 1.25rem;
+    pointer-events: auto;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(245, 158, 11, 0.2);
+    min-width: 50px;
+    min-height: 50px;
+    border-radius: 12px;
+  }
 }
 
 .mobile-menu-toggle:hover,
