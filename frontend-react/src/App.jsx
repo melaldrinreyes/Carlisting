@@ -23,6 +23,32 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
 
+  useEffect(() => {
+    // Prevent zoom on touch devices
+    const preventZoom = (e) => {
+      if (e.touches && e.touches.length > 1) {
+        e.preventDefault();
+      }
+    };
+
+    const preventDoubleTapZoom = (e) => {
+      e.preventDefault();
+    };
+
+    // Prevent pinch zoom
+    document.addEventListener('touchmove', preventZoom, { passive: false });
+    
+    // Prevent double-tap zoom (iOS)
+    document.addEventListener('dblclick', preventDoubleTapZoom);
+    document.addEventListener('gesturestart', preventDoubleTapZoom);
+
+    return () => {
+      document.removeEventListener('touchmove', preventZoom);
+      document.removeEventListener('dblclick', preventDoubleTapZoom);
+      document.removeEventListener('gesturestart', preventDoubleTapZoom);
+    };
+  }, []);
+
   // Simple client-side routing with protected routes
   const renderPage = () => {
     switch (currentPage) {
