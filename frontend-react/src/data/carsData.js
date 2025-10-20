@@ -59,21 +59,21 @@ export const carsData = [
   {
     id: 9,
     model: "Mazda CX-5",
-    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=500&h=300&fit=crop",
     description: "Stylish SUV with great handling",
     price: "$32,000"
   },
   {
     id: 10,
     model: "Nissan Altima",
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1623869675781-80aa31bcc34e?w=500&h=300&fit=crop",
     description: "Comfortable mid-size sedan with tech features",
     price: "$27,500"
   },
   {
     id: 11,
     model: "Volkswagen Golf",
-    image: "https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1622408210419-59e6273ad89d?w=500&h=300&fit=crop",
     description: "Compact hatchback with European styling",
     price: "$24,000"
   },
