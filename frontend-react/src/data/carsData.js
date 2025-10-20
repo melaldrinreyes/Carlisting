@@ -17,7 +17,7 @@ export const carsData = [
   {
     id: 3,
     model: "Ford Mustang",
-    image: "https://images.unsplash.com/photo-1584345604476-8ec5f8264ec2?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1547744152-14d985cb937f?w=500&h=300&fit=crop",
     description: "Powerful sports car with iconic design",
     price: "$45,000"
   }
