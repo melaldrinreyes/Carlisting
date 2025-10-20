@@ -38,7 +38,7 @@ export const carsData = [
   {
     id: 6,
     model: "Mercedes-Benz C-Class",
-    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=500&h=300&fit=crop",
     description: "Elegant luxury car with advanced technology",
     price: "$52,000"
   },
