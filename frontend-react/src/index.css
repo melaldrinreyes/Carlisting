@@ -35,6 +35,11 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: var(--dark-bg);
+  overflow-x: hidden;
+}
+
+body.menu-open {
+  overflow: hidden;
 }
 
 a {
@@ -45,4 +50,30 @@ a {
 #root {
   min-height: 100vh;
   background-color: var(--dark-bg);
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better touch targets for mobile */
+@media (max-width: 768px) {
+  button, a, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Prevent horizontal scroll on mobile */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Better text readability on mobile */
+@media (max-width: 768px) {
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
 }

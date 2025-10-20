@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaCar, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
@@ -6,6 +6,20 @@ import './Navbar.css';
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    // Lock body scroll when mobile menu is open
+    if (isMobileMenuOpen) {
+      document.body.classList.add('menu-open');
+    } else {
+      document.body.classList.remove('menu-open');
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.classList.remove('menu-open');
+    };
+  }, [isMobileMenuOpen]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -31,6 +45,12 @@ const Navbar = () => {
         <button className="mobile-menu-toggle" onClick={toggleMobileMenu} aria-label="Toggle menu">
           {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
         </button>
+
+        {/* Mobile Menu Overlay */}
+        <div 
+          className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}
+          onClick={closeMobileMenu}
+        ></div>
 
         <ul className={`navbar-menu ${isMobileMenuOpen ? 'active' : ''}`}>
           <li><a href="#/" onClick={closeMobileMenu}>Home</a></li>
