@@ -37,6 +37,7 @@ body {
   background-color: var(--dark-bg);
   overflow-x: hidden;
   touch-action: pan-y pinch-zoom;
+  overscroll-behavior-x: none;
 }
 
 body.menu-open {
@@ -54,9 +55,10 @@ a {
   background-color: var(--dark-bg);
 }
 
-/* Smooth Scrolling */
 html {
   scroll-behavior: smooth;
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: contain;
 }
 
 /* Better touch targets for mobile */

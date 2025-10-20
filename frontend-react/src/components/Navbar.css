@@ -288,10 +288,14 @@
     transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     overflow-y: auto;
     z-index: 1002;
+    pointer-events: none;
+    touch-action: none;
   }
 
   .navbar-menu.active {
     right: 0;
+    pointer-events: auto;
+    touch-action: auto;
   }
 
   .navbar-menu li {

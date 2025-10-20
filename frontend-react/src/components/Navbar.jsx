@@ -21,6 +21,28 @@ const Navbar = () => {
     };
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    // Prevent swipe gestures from opening menu
+    const preventSwipe = (e) => {
+      // Disable swipe-to-open behavior
+      if (e.touches && e.touches.length > 0) {
+        const touch = e.touches[0];
+        const startX = touch.clientX;
+        
+        // Prevent swipe from right edge
+        if (startX > window.innerWidth - 50) {
+          e.preventDefault();
+        }
+      }
+    };
+
+    document.addEventListener('touchstart', preventSwipe, { passive: false });
+
+    return () => {
+      document.removeEventListener('touchstart', preventSwipe);
+    };
+  }, []);
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
