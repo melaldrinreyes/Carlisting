@@ -3,7 +3,7 @@ export const carsData = [
   {
     id: 1,
     model: "Honda Civic",
-    image: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=500&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=500&h=300&fit=crop",
     description: "Reliable and fuel-efficient sedan with modern features",
     price: "$25,000"
   },
