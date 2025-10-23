@@ -218,7 +218,7 @@ Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-ca
       // Use SDK to make the API call with FREE model
       console.log('Calling OpenRouter API with FREE model...');
       const completion = await openai.chat.completions.create({
-        model: 'google/gemma-2-9b-it:free', // FREE Google Gemma model - highly reliable!
+        model: 'meta-llama/llama-3.2-3b-instruct:free', // FREE Meta LLaMA model - highly reliable!
         messages: conversationMessages,
         temperature: 0.7,
         max_tokens: 300,
