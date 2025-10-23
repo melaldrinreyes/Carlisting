@@ -186,11 +186,6 @@
   box-shadow: 0 3px 15px rgba(245, 158, 11, 0.2);
 }
 
-/* Mobile Menu Toggle Button */
-.mobile-menu-toggle {
-  display: none;
-}
-
 /* Bottom Navigation - Hidden on Desktop */
 .bottom-nav {
   display: none;
@@ -290,69 +285,6 @@
   }
 }
 
-@media (max-width: 1024px) {
-  .mobile-menu-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(245, 158, 11, 0.1);
-    border: 2px solid rgba(245, 158, 11, 0.3);
-    color: #f59e0b;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.75rem;
-    transition: all 0.3s ease;
-    z-index: 1005;
-    position: fixed;
-    right: 1.5rem;
-    top: 1.25rem;
-    pointer-events: auto;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: rgba(245, 158, 11, 0.2);
-    min-width: 50px;
-    min-height: 50px;
-    border-radius: 12px;
-  }
-}
-
-.mobile-menu-toggle:hover,
-.mobile-menu-toggle:active {
-  background: rgba(245, 158, 11, 0.2);
-  border-color: rgba(245, 158, 11, 0.6);
-  transform: scale(1.05);
-}
-
-.mobile-menu-toggle:hover {
-  color: #fbbf24;
-  transform: scale(1.1);
-}
-
-.mobile-menu-toggle:active {
-  transform: scale(0.95);
-}
-
-/* Mobile Menu Overlay */
-.mobile-menu-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 1000;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  backdrop-filter: blur(4px);
-  pointer-events: none;
-}
-
-.mobile-menu-overlay.active {
-  display: block;
-  opacity: 1;
-  pointer-events: auto;
-}
-
 /* Tablet Responsiveness */
 @media (max-width: 1024px) {
   .navbar-container {
@@ -375,11 +307,6 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-  /* Hide hamburger menu toggle */
-  .mobile-menu-toggle {
-    display: none !important;
-  }
-
   .navbar-container {
     padding: 0 1.5rem;
     position: relative;
@@ -400,11 +327,6 @@
 
   /* Hide desktop menu completely on mobile */
   .navbar-menu {
-    display: none !important;
-  }
-
-  /* Hide mobile menu overlay */
-  .mobile-menu-overlay {
     display: none !important;
   }
 }

@@ -1,49 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { FaCar, FaUser, FaBars, FaTimes, FaHome, FaList, FaShoppingCart, FaEnvelope, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaCar, FaUser, FaHome, FaList, FaShoppingCart, FaEnvelope, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import LoginModal from './LoginModal';
 import './Navbar.css';
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
-  useEffect(() => {
-    // Lock body scroll when mobile menu is open
-    if (isMobileMenuOpen) {
-      document.body.classList.add('menu-open');
-    } else {
-      document.body.classList.remove('menu-open');
-    }
-
-    // Cleanup on unmount
-    return () => {
-      document.body.classList.remove('menu-open');
-    };
-  }, [isMobileMenuOpen]);
-
-  const toggleMobileMenu = (e) => {
-    if (e) {
-      e.stopPropagation();
-    }
-    setIsMobileMenuOpen(prev => !prev);
-  };
-
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
-
-  const handleMenuClick = () => {
-    // Just close the menu, allow navigation to happen
-    setTimeout(() => {
-      setIsMobileMenuOpen(false);
-    }, 100);
-  };
 
   const handleLogout = () => {
     logout();
-    setIsMobileMenuOpen(false);
   };
 
   const handleLoginClick = (e) => {
@@ -51,40 +17,22 @@ const Navbar = () => {
       e.preventDefault();
     }
     setIsLoginModalOpen(true);
-    setIsMobileMenuOpen(false);
   };
 
   return (
     <>
       <nav className="navbar">
         <div className="navbar-container">
-          <a href="#/" className="navbar-logo" onClick={closeMobileMenu}>
+          <a href="#/" className="navbar-logo">
             <FaCar className="navbar-logo-icon" />
             <h2>AutoDeals</h2>
           </a>
 
-          <button 
-            className="mobile-menu-toggle" 
-            onClick={toggleMobileMenu}
-            type="button"
-            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isMobileMenuOpen}
-          >
-            {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
-          </button>
-
-          {/* Mobile Menu Overlay */}
-          <div 
-            className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}
-            onClick={closeMobileMenu}
-            aria-hidden="true"
-          ></div>
-
-          <ul className={`navbar-menu ${isMobileMenuOpen ? 'active' : ''}`}>
-            <li><a href="#/" onClick={handleMenuClick}>Home</a></li>
-            <li><a href="#/listings" onClick={handleMenuClick}>Car Listings</a></li>
-            <li><a href="#/order" onClick={handleMenuClick}>Order Now</a></li>
-            <li><a href="#/contact" onClick={handleMenuClick}>Contact</a></li>
+          <ul className="navbar-menu">
+            <li><a href="#/">Home</a></li>
+            <li><a href="#/listings">Car Listings</a></li>
+            <li><a href="#/order">Order Now</a></li>
+            <li><a href="#/contact">Contact</a></li>
             
             {isAuthenticated ? (
               <>
