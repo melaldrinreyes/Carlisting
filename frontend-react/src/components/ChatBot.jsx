@@ -7,6 +7,12 @@ import './ChatBot.css';
 const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || '';
 let openaiClient = null;
 
+console.log('🔍 API Key Status:', {
+  exists: !!OPENROUTER_API_KEY,
+  length: OPENROUTER_API_KEY ? OPENROUTER_API_KEY.length : 0,
+  prefix: OPENROUTER_API_KEY ? OPENROUTER_API_KEY.substring(0, 15) + '...' : 'N/A'
+});
+
 if (OPENROUTER_API_KEY && OPENROUTER_API_KEY !== 'your-openrouter-api-key-here') {
   try {
     openaiClient = new OpenAI({
@@ -18,12 +24,13 @@ if (OPENROUTER_API_KEY && OPENROUTER_API_KEY !== 'your-openrouter-api-key-here')
       },
       dangerouslyAllowBrowser: true
     });
-    console.log('✅ OpenAI client initialized successfully with API key');
+    console.log('✅ OpenAI client initialized successfully!');
+    console.log('✅ Using FREE Meta LLaMA 3.2 model');
   } catch (error) {
     console.error('❌ Failed to initialize OpenAI client:', error);
   }
 } else {
-  console.warn('⚠️ OpenRouter API key not found or invalid');
+  console.warn('⚠️ OpenRouter API key not found or invalid - will use fallback responses');
 }
 
 const ChatBot = () => {
