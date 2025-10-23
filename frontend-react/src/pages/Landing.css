@@ -182,9 +182,12 @@
 /* Featured Cars Section */
 .featured-cars {
   padding: 5rem 0 8rem;
-  background: linear-gradient(180deg, #141826 0%, #1e2433 100%);
+  background: 
+    linear-gradient(180deg, rgba(20, 24, 38, 0.92) 0%, rgba(30, 36, 51, 0.94) 100%),
+    url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&h=1080&fit=crop&q=80') center/cover;
   position: relative;
   box-shadow: inset 0 4px 20px rgba(245, 158, 11, 0.05);
+  background-attachment: fixed;
 }
 
 .section-header {
@@ -584,6 +587,10 @@
     padding: 3rem 1.5rem 4rem;
   }
 
+  .featured-cars {
+    background-attachment: scroll;
+  }
+
   .section-title {
     font-size: 2rem;
     margin-bottom: 1.5rem;
@@ -671,6 +678,10 @@
   .how-it-works,
   .features {
     padding: 2.5rem 1rem 3rem;
+  }
+
+  .featured-cars {
+    background-attachment: scroll;
   }
 
   .section-title {
