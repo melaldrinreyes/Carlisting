@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FaCar, FaUser, FaBars, FaTimes, FaHome, FaList, FaShoppingCart, FaEnvelope, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
+import LoginModal from './LoginModal';
 import './Navbar.css';
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   useEffect(() => {
     // Lock body scroll when mobile menu is open
@@ -41,6 +43,11 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleLoginClick = () => {
+    setIsLoginModalOpen(true);
     setIsMobileMenuOpen(false);
   };
 
@@ -87,19 +94,19 @@ const Navbar = () => {
                     Logout
                   </button>
                 </li>
-              </>
-            ) : (
-              <li>
-                <a href="#/login" className="navbar-auth-btn login-btn" onClick={handleMenuClick}>
-                  Login
-                </a>
-              </li>
-            )}
-          </ul>
-        </div>
-      </nav>
+            </>
+          ) : (
+            <li>
+              <button onClick={handleLoginClick} className="navbar-auth-btn login-btn">
+                Login
+              </button>
+            </li>
+          )}
+        </ul>
+      </div>
 
-      {/* Bottom Navigation for Mobile */}
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+    </nav>      {/* Bottom Navigation for Mobile */}
       <nav className="bottom-nav">
         <a href="#/" className="bottom-nav-item">
           <FaHome className="bottom-nav-icon" />
@@ -123,10 +130,10 @@ const Navbar = () => {
             <span className="bottom-nav-label">Logout</span>
           </button>
         ) : (
-          <a href="#/login" className="bottom-nav-item">
+          <button onClick={handleLoginClick} className="bottom-nav-item bottom-nav-btn">
             <FaSignInAlt className="bottom-nav-icon" />
             <span className="bottom-nav-label">Login</span>
-          </a>
+          </button>
         )}
       </nav>
     </>
