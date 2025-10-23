@@ -120,15 +120,30 @@ const ChatBot = () => {
           setConversationHistory([{ text: greeting, sender: 'bot' }]);
         } catch (error) {
           console.error('Error generating greeting:', error);
-          // Fallback greeting if AI fails
-          const fallbackGreeting = {
-            id: Date.now(),
-            text: "Hey there! ≡ƒæï I'm Alex from AutoDeals. How can I help you today?",
-            sender: 'bot',
-            timestamp: new Date()
-          };
-          setMessages([fallbackGreeting]);
-          setConversationHistory([{ text: fallbackGreeting.text, sender: 'bot' }]);
+          // Try alternative AI for fallback greeting
+          try {
+            const greeting = await getAlternativeAIResponse("Greet the customer warmly as Alex from AutoDeals car dealership. Keep it brief and friendly.");
+            const botMessage = {
+              id: Date.now(),
+              text: greeting,
+              sender: 'bot',
+              timestamp: new Date()
+            };
+            setMessages([botMessage]);
+            setConversationHistory([{ text: greeting, sender: 'bot' }]);
+          } catch (fallbackError) {
+            console.error('Error with fallback greeting:', fallbackError);
+            // Last resort: use getFallbackResponse
+            const greeting = getFallbackResponse("hello");
+            const botMessage = {
+              id: Date.now(),
+              text: greeting,
+              sender: 'bot',
+              timestamp: new Date()
+            };
+            setMessages([botMessage]);
+            setConversationHistory([{ text: greeting, sender: 'bot' }]);
+          }
         } finally {
           setIsTyping(false);
         }
