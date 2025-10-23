@@ -37,102 +37,112 @@ const ChatBot = () => {
   };
 
   const getAIResponse = async (userMessage) => {
-    const apiKey = import.meta.env.VITE_AI_API_KEY;
-    const apiUrl = import.meta.env.VITE_AI_API_URL;
-    const model = import.meta.env.VITE_AI_MODEL || 'gpt-3.5-turbo';
-
-    // If no API key, use enhanced fallback
-    if (!apiKey || !apiUrl) {
-      console.log('Using enhanced AI fallback mode');
-      return getEnhancedFallbackResponse(userMessage);
-    }
-
     try {
-      // Build conversation context for AI
-      const systemMessage = {
-        role: 'system',
-        content: `You are AutoDeals AI Assistant, a knowledgeable and friendly car dealership virtual assistant.
+      // Using Hugging Face Inference API (free tier available)
+      // This uses a conversational AI model that can answer general questions
+      
+      const HF_API_URL = 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2';
+      
+      // Build context with AutoDeals information
+      const systemPrompt = `You are AutoDeals AI Assistant, a helpful and knowledgeable virtual assistant for a car dealership. You can answer ANY question the user asks, not just about cars.
 
-Your role:
-- Help customers find their perfect car
-- Answer questions about vehicles, pricing, features, and specifications
-- Guide customers through the buying/ordering process
-- Provide financing information and options
-- Assist with test drive scheduling
-- Handle trade-in inquiries
-- Offer warranty and service information
-
-AutoDeals Information:
-📞 Phone: +1 (555) 123-4567
-📧 Email: info@autodeals.com
-📍 Address: 123 Auto Street, Car City
-⏰ Hours: Mon-Fri 9AM-6PM, Sat 10AM-4PM
+AutoDeals Information (use when relevant):
+- Phone: +1 (555) 123-4567
+- Email: info@autodeals.com
+- Address: 123 Auto Street, Car City
+- Hours: Mon-Fri 9AM-6PM, Sat 10AM-4PM
+- Services: New & used cars, financing, trade-ins, test drives, warranties
 
 Guidelines:
-- Be warm, helpful, and professional
-- Keep responses concise but informative (2-4 sentences)
-- Use relevant emojis sparingly for engagement
-- If asked about specific inventory, suggest checking the Car Listings page
-- For detailed quotes, recommend contacting the sales team
-- Always prioritize customer satisfaction
+- Answer ALL questions to the best of your ability, even if they're not about cars
+- Be friendly, conversational, and helpful
+- Give informative, accurate responses
+- Use emojis occasionally to be engaging
+- If discussing AutoDeals specifically, mention relevant services
+- Keep responses conversational but informative
 
-Respond naturally and conversationally.`
-      };
+User Question: ${userMessage}
 
-      // Get last 5 conversation pairs for context
-      const recentMessages = conversationHistory.slice(-10).map(msg => ({
-        role: msg.sender === 'user' ? 'user' : 'assistant',
-        content: msg.text
-      }));
+Assistant Response:`;
 
-      const response = await fetch(apiUrl, {
+      const response = await fetch(HF_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-          model: model,
-          messages: [
-            systemMessage,
-            ...recentMessages,
-            { role: 'user', content: userMessage }
-          ],
-          temperature: 0.7,
-          max_tokens: 250,
-          top_p: 0.9,
-          frequency_penalty: 0.5,
-          presence_penalty: 0.3
+          inputs: systemPrompt,
+          parameters: {
+            max_new_tokens: 250,
+            temperature: 0.7,
+            top_p: 0.9,
+            return_full_text: false
+          }
         })
       });
 
       if (!response.ok) {
-        throw new Error(`AI API error: ${response.status}`);
+        // Try alternative free API
+        return await getAlternativeAIResponse(userMessage);
       }
 
       const data = await response.json();
       
-      if (data.choices && data.choices[0] && data.choices[0].message) {
-        return data.choices[0].message.content.trim();
+      if (data && data[0] && data[0].generated_text) {
+        const generatedText = data[0].generated_text.trim();
+        // Clean up the response
+        const cleanedText = generatedText
+          .replace(/^(Assistant Response:|Assistant:|Response:)/i, '')
+          .trim();
+        return cleanedText || getFallbackResponse(userMessage);
       }
       
-      throw new Error('Invalid AI response format');
+      throw new Error('Invalid AI response');
     } catch (error) {
-      console.error('AI Error:', error);
-      return getEnhancedFallbackResponse(userMessage);
+      console.error('Primary AI Error:', error);
+      return await getAlternativeAIResponse(userMessage);
     }
   };
 
-  const getEnhancedFallbackResponse = (userMessage) => {
-    const message = userMessage.toLowerCase();
-    
-    // Use sentiment analysis for better responses
-    const isQuestion = message.includes('?') || message.startsWith('how') || 
-                      message.startsWith('what') || message.startsWith('when') || 
-                      message.startsWith('where') || message.startsWith('why') ||
-                      message.startsWith('can') || message.startsWith('do');
-    
-    return getFallbackResponse(userMessage);
+  const getAlternativeAIResponse = async (userMessage) => {
+    try {
+      // Alternative: Use a different free AI API
+      const response = await fetch('https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          inputs: {
+            past_user_inputs: conversationHistory
+              .filter(m => m.sender === 'user')
+              .map(m => m.text)
+              .slice(-3),
+            generated_responses: conversationHistory
+              .filter(m => m.sender === 'bot')
+              .map(m => m.text)
+              .slice(-3),
+            text: userMessage
+          },
+          parameters: {
+            max_length: 200
+          }
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.generated_text) {
+          return data.generated_text.trim();
+        }
+      }
+      
+      // If both APIs fail, use enhanced responses
+      return getFallbackResponse(userMessage);
+    } catch (error) {
+      console.error('Alternative AI Error:', error);
+      return getFallbackResponse(userMessage);
+    }
   };
 
   const getFallbackResponse = (userMessage) => {
