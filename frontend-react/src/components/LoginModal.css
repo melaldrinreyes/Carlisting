@@ -1,18 +1,21 @@
 .login-modal-content {
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .login-subtitle {
   color: rgba(255, 255, 255, 0.7);
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
   font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .error-message {
@@ -47,20 +50,21 @@
 
 .form-group input {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.15);
   color: #ffffff;
   padding: 0.875rem 1rem;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 0.95rem;
   transition: all 0.2s ease;
   font-family: inherit;
+  width: 100%;
 }
 
 .form-group input:focus {
   outline: none;
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(245, 158, 11, 0.5);
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.6);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
 }
 
 .form-group input::placeholder {
@@ -101,38 +105,45 @@
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   color: #0a0e1a;
   border: none;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   border-radius: 12px;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+  letter-spacing: 0.3px;
 }
 
 .login-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
 }
 
 .login-button:active {
   transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
 .demo-info {
-  background: rgba(245, 158, 11, 0.1);
+  background: rgba(245, 158, 11, 0.08);
   border: 1px solid rgba(245, 158, 11, 0.2);
   padding: 0.875rem 1rem;
   border-radius: 10px;
   text-align: center;
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.7);
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
+  line-height: 1.5;
 }
 
 .demo-info strong {
   color: #fbbf24;
   font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
 }
 
 /* Responsive */

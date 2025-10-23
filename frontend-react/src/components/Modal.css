@@ -64,9 +64,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem 2rem 1.5rem;
-  border-bottom: 1px solid rgba(245, 158, 11, 0.15);
+  padding: 2rem 2rem 1.25rem;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
   position: relative;
+  gap: 1rem;
 }
 
 .modal-header::after {
@@ -74,17 +75,19 @@
   position: absolute;
   bottom: 0;
   left: 2rem;
-  width: 60px;
+  width: 50px;
   height: 2px;
   background: linear-gradient(90deg, #f59e0b, transparent);
+  border-radius: 2px;
 }
 
 .modal-title {
-  font-size: 1.75rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: #ffffff;
   margin: 0;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.3px;
+  flex: 1;
 }
 
 /* Close Button */
@@ -116,13 +119,14 @@
 
 /* Modal Content */
 .modal-content {
-  padding: 2rem;
+  padding: 2rem 2rem 1.5rem;
   overflow-y: auto;
   color: #e5e7eb;
   line-height: 1.7;
   flex: 1;
   scrollbar-width: thin;
   scrollbar-color: rgba(245, 158, 11, 0.4) transparent;
+  min-height: 0;
 }
 
 .modal-content::-webkit-scrollbar {

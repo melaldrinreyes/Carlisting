@@ -46,11 +46,11 @@ const LoginModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Welcome Back" maxWidth="450px">
+    <Modal isOpen={isOpen} onClose={handleClose} title="Welcome Back" maxWidth="480px">
       <div className="login-modal-content">
         <p className="login-subtitle">Sign in to access your account</p>
 
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="login-form" autoComplete="on">
           {error && <div className="error-message">{error}</div>}
 
           <div className="form-group">
