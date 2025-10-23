@@ -328,6 +328,8 @@ Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-ca
 
     const userText = inputMessage;
     
+    console.log('User sent message:', userText);
+    
     // Add user message
     const userMessage = {
       id: messages.length + 1,
@@ -342,8 +344,11 @@ Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-ca
     setIsTyping(true);
 
     try {
+      console.log('Getting AI response...');
       // Get AI response
       const responseText = await getAIResponse(userText);
+      
+      console.log('AI response received:', responseText);
       
       // Add small delay for natural feel
       await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 1200));
@@ -355,13 +360,14 @@ Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-ca
         timestamp: new Date()
       };
       
+      console.log('Adding bot response to chat');
       setMessages(prev => [...prev, botResponse]);
       setConversationHistory(prev => [...prev, botResponse]);
     } catch (error) {
       console.error('Error getting response:', error);
       const errorResponse = {
         id: messages.length + 2,
-        text: "I apologize, I'm having trouble connecting right now. ≡ƒÿà But I can still help you! Try asking about our cars, pricing, or contact information.",
+        text: "I apologize, I'm having trouble connecting right now. 😅 But I can still help you! Try asking about our cars, pricing, or contact information.",
         sender: 'bot',
         timestamp: new Date()
       };
