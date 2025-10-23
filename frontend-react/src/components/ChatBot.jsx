@@ -38,11 +38,10 @@ const ChatBot = () => {
 
   // Initialize button position
   useEffect(() => {
-    if (position.x === null && position.y === null) {
-      // Default position: bottom right
-      const defaultX = window.innerWidth - 90; // 2rem from right + button width
-      const defaultY = window.innerHeight - 150; // 90px from bottom
-      setPosition({ x: defaultX, y: defaultY });
+    if (position.y === null) {
+      // Default position: middle-bottom of right side
+      const defaultY = window.innerHeight - 200; // Initial Y position
+      setPosition({ x: null, y: defaultY }); // x is null, always stays on right side
     }
   }, [position]);
 
@@ -52,11 +51,10 @@ const ChatBot = () => {
     
     setIsDragging(true);
     
-    const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
     const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
     
     setDragOffset({
-      x: clientX - position.x,
+      x: 0,
       y: clientY - position.y
     });
   };
@@ -67,20 +65,17 @@ const ChatBot = () => {
     
     e.preventDefault();
     
-    const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
     const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
     
-    const newX = clientX - dragOffset.x;
     const newY = clientY - dragOffset.y;
     
-    // Keep button within viewport bounds
+    // Keep button within viewport bounds (vertical only)
     const buttonSize = 60;
-    const maxX = window.innerWidth - buttonSize;
-    const maxY = window.innerHeight - buttonSize;
+    const maxY = window.innerHeight - buttonSize - 20; // 20px padding from bottom
     
     setPosition({
-      x: Math.max(0, Math.min(newX, maxX)),
-      y: Math.max(0, Math.min(newY, maxY))
+      x: null, // Always stay on the right side
+      y: Math.max(20, Math.min(newY, maxY)) // 20px padding from top
     });
   };
 
@@ -317,17 +312,14 @@ Assistant Response:`;
           ref={buttonRef}
           className={`chat-bot-button ${isDragging ? 'dragging' : ''}`}
           style={{
-            left: position.x !== null ? `${position.x}px` : 'auto',
-            top: position.y !== null ? `${position.y}px` : 'auto',
-            right: position.x === null ? '2rem' : 'auto',
-            bottom: position.y === null ? '90px' : 'auto',
+            top: position.y !== null ? `${position.y}px` : '50%',
             cursor: isDragging ? 'grabbing' : 'grab'
           }}
           onClick={toggleChat}
           onMouseDown={handleDragStart}
           onTouchStart={handleDragStart}
           aria-label="Toggle chat"
-          title="Drag to move, click to open chat"
+          title="Drag vertically to move"
         >
           <FaComments />
           <span className="chat-pulse"></span>
