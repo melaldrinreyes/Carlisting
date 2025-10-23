@@ -177,7 +177,6 @@ const Landing = () => {
             Join thousands of satisfied customers who found their perfect vehicle with us
           </p>
           <div className="cta-buttons">
-            <Button variant="primary" href="#/listings">Explore Inventory</Button>
             <Button variant="secondary" href="#/order">Contact Sales Team</Button>
           </div>
         </div>
