@@ -109,32 +109,38 @@ const ChatBot = () => {
 
   const getAIResponse = async (userMessage) => {
     try {
-      // Using Hugging Face Inference API (free tier available)
-      // This uses a conversational AI model that can answer general questions
-      
+      // Using Hugging Face Inference API with advanced Mistral model
       const HF_API_URL = 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2';
       
-      // Build context with AutoDeals information
-      const systemPrompt = `You are AutoDeals AI Assistant, a helpful and knowledgeable virtual assistant for a car dealership. You can answer ANY question the user asks, not just about cars.
+      // Build conversation context
+      const conversationContext = conversationHistory
+        .slice(-6) // Last 3 exchanges (6 messages)
+        .map(m => `${m.sender === 'user' ? 'User' : 'Assistant'}: ${m.text}`)
+        .join('\n');
 
-AutoDeals Information (use when relevant):
-- Phone: +1 (555) 123-4567
-- Email: info@autodeals.com
-- Address: 123 Auto Street, Car City
+      // Enhanced system prompt with better instructions
+      const systemPrompt = `You are AutoDeals AI Assistant, an intelligent and knowledgeable virtual assistant. You excel at answering ANY question clearly, accurately, and conversationally.
+
+AutoDeals Information (mention when relevant):
+- Premium car dealership specializing in new & used vehicles
+- Phone: +1 (555) 123-4567 | Email: info@autodeals.com
+- Location: 123 Auto Street, Car City
 - Hours: Mon-Fri 9AM-6PM, Sat 10AM-4PM
-- Services: New & used cars, financing, trade-ins, test drives, warranties
+- Services: Sales, financing, trade-ins, test drives, warranties, maintenance
 
-Guidelines:
-- Answer ALL questions to the best of your ability, even if they're not about cars
-- Be friendly, conversational, and helpful
-- Give informative, accurate responses
-- Use emojis occasionally to be engaging
-- If discussing AutoDeals specifically, mention relevant services
-- Keep responses conversational but informative
+Your capabilities:
+- Answer general knowledge questions (science, history, tech, entertainment, etc.)
+- Provide car advice and automotive information
+- Help with AutoDeals services and inquiries
+- Engage in natural, friendly conversation
+- Give detailed, informative responses
 
-User Question: ${userMessage}
+Conversation so far:
+${conversationContext}
 
-Assistant Response:`;
+Current User Question: ${userMessage}
+
+Provide a helpful, accurate, and engaging response (2-4 sentences). Be natural and conversational:`;
 
       const response = await fetch(HF_API_URL, {
         method: 'POST',
@@ -144,28 +150,38 @@ Assistant Response:`;
         body: JSON.stringify({
           inputs: systemPrompt,
           parameters: {
-            max_new_tokens: 250,
-            temperature: 0.7,
-            top_p: 0.9,
+            max_new_tokens: 300,
+            temperature: 0.8,
+            top_p: 0.92,
+            repetition_penalty: 1.15,
+            do_sample: true,
             return_full_text: false
           }
         })
       });
 
       if (!response.ok) {
-        // Try alternative free API
         return await getAlternativeAIResponse(userMessage);
       }
 
       const data = await response.json();
       
       if (data && data[0] && data[0].generated_text) {
-        const generatedText = data[0].generated_text.trim();
-        // Clean up the response
-        const cleanedText = generatedText
-          .replace(/^(Assistant Response:|Assistant:|Response:)/i, '')
+        let generatedText = data[0].generated_text.trim();
+        
+        // Advanced text cleaning
+        generatedText = generatedText
+          .replace(/^(Assistant Response:|Assistant:|Response:|Answer:)\s*/i, '')
+          .replace(/^["']|["']$/g, '') // Remove quotes
+          .replace(/\n{3,}/g, '\n\n') // Clean excessive newlines
           .trim();
-        return cleanedText || getFallbackResponse(userMessage);
+        
+        // If response is too short or empty, try alternative
+        if (generatedText.length < 20) {
+          return await getAlternativeAIResponse(userMessage);
+        }
+        
+        return generatedText;
       }
       
       throw new Error('Invalid AI response');
