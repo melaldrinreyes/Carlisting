@@ -171,9 +171,9 @@ Be helpful, accurate, and conversational. Keep responses concise (2-4 sentences)
         content: userMessage
       });
 
-      // Use SDK to make the API call
+      // Use SDK to make the API call with FREE model
       const completion = await openai.chat.completions.create({
-        model: 'openai/gpt-3.5-turbo',
+        model: 'meta-llama/llama-3.1-8b-instruct:free', // FREE model - no credits required!
         messages: conversationMessages,
         temperature: 0.7,
         max_tokens: 300

@@ -44,11 +44,13 @@ VITE_OPENROUTER_API_KEY=sk-or-v1-your-actual-key-here
 
 The ChatBot is configured to use:
 - **SDK**: OpenAI SDK with OpenRouter baseURL
-- **Model**: `openai/gpt-3.5-turbo` (fast and cost-effective)
+- **Model**: `meta-llama/llama-3.1-8b-instruct:free` (**100% FREE - No credits needed!**)
 - **Temperature**: 0.7 (balanced creativity)
 - **Max Tokens**: 300 (concise responses)
 - **Context**: Last 6 messages for conversation continuity
 - **Client-side**: Uses `dangerouslyAllowBrowser: true` for frontend usage
+
+**Note:** This FREE model doesn't require any payment or credits! It's powered by Meta's LLaMA 3.1 and works great for most chatbot needs.
 
 ## Fallback System
 
@@ -72,7 +74,7 @@ Open browser DevTools (F12 → Console) to see:
 **Solution**: Your API key may be invalid. Generate a new one at [openrouter.ai/keys](https://openrouter.ai/keys).
 
 ### Issue: "Insufficient credits"
-**Solution**: Add credits to your OpenRouter account at [openrouter.ai/credits](https://openrouter.ai/credits).
+**Solution**: You're using a FREE model, so this shouldn't happen! If it does, try switching to another free model like `google/gemma-2-9b-it:free`.
 
 ### Issue: ChatBot uses fallback responses
 **Solution**: Check browser console for errors. Ensure you have credits in your OpenRouter account.
@@ -86,24 +88,26 @@ Open browser DevTools (F12 → Console) to see:
 
 ## Cost Optimization
 
-OpenRouter pricing is pay-per-use:
-- **GPT-3.5-turbo**: ~$0.002 per 1K tokens (very affordable)
-- Conversation history limited to 6 messages to reduce costs
-- Max tokens set to 300 for concise responses
+The current model is **100% FREE!**
+- **LLaMA 3.1 8B**: Completely free, no charges
+- No credits needed in your OpenRouter account
+- Unlimited usage (subject to fair use policies)
+- Great quality responses for chatbot applications
 
 To monitor usage:
 1. Visit [OpenRouter Dashboard](https://openrouter.ai/activity)
-2. Check your usage and costs in real-time
+2. See your free model usage statistics
 
 ## Alternative Models
 
 You can switch to other models by changing the `model` parameter in `ChatBot.jsx`:
 
 ```javascript
-model: 'openai/gpt-3.5-turbo',  // Current (fast & cheap)
-// model: 'openai/gpt-4',       // More intelligent but expensive
-// model: 'anthropic/claude-2', // Alternative AI
-// model: 'meta-llama/llama-2-70b-chat', // Open source option
+model: 'meta-llama/llama-3.1-8b-instruct:free',  // Current (100% FREE!)
+// model: 'google/gemma-2-9b-it:free',            // Also FREE
+// model: 'mistralai/mistral-7b-instruct:free',   // Also FREE
+// model: 'openai/gpt-3.5-turbo',                 // Paid but faster (requires credits)
+// model: 'openai/gpt-4',                         // Paid, most intelligent (requires credits)
 ```
 
 ## Production Deployment
