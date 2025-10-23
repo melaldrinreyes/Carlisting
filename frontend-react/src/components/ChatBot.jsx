@@ -161,6 +161,8 @@ const ChatBot = () => {
         dangerouslyAllowBrowser: true // Required for client-side usage
       });
       
+      console.log('OpenAI SDK initialized successfully');
+      
       // Build conversation context for better continuity
       const conversationMessages = [
         {
@@ -219,7 +221,8 @@ Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-ca
         model: 'google/gemma-2-9b-it:free', // FREE Google Gemma model - highly reliable!
         messages: conversationMessages,
         temperature: 0.7,
-        max_tokens: 300
+        max_tokens: 300,
+        stream: false
       });
 
       console.log('OpenRouter SDK response received:', completion);
@@ -233,12 +236,13 @@ Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-ca
         }
       }
       
-      throw new Error('Invalid OpenRouter response');
+      throw new Error('Invalid OpenRouter response - no valid content received');
     } catch (error) {
       console.error('OpenRouter SDK Error Details:', {
         message: error.message,
         stack: error.stack,
-        error: error
+        error: error,
+        type: error.constructor.name
       });
       console.log('Falling back to alternative AI...');
       return await getAlternativeAIResponse(userMessage);
