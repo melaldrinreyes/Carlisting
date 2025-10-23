@@ -5,20 +5,14 @@ import './ChatBot.css';
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      text: "Hi! I'm AutoDeals AI Assistant. I can help you find the perfect car, answer questions about our inventory, pricing, financing options, and more. How can I assist you today?",
-      sender: 'bot',
-      timestamp: new Date()
-    }
-  ]);
+  const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [conversationHistory, setConversationHistory] = useState([]);
   const [position, setPosition] = useState({ x: null, y: null });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [isInitialized, setIsInitialized] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
@@ -102,9 +96,43 @@ const ChatBot = () => {
     }
   }, [isDragging, dragOffset, position]);
 
-  const toggleChat = () => {
+  const toggleChat = async () => {
     if (!isDragging) {
-      setIsOpen(!isOpen);
+      const newIsOpen = !isOpen;
+      setIsOpen(newIsOpen);
+      
+      // Generate AI greeting when chat opens for the first time
+      if (newIsOpen && !isInitialized && messages.length === 0) {
+        setIsInitialized(true);
+        setIsTyping(true);
+        
+        try {
+          const greeting = await getAIResponse("Greet the user warmly and introduce yourself as AutoDeals AI Assistant. Keep it brief and friendly.");
+          
+          const botMessage = {
+            id: Date.now(),
+            text: greeting,
+            sender: 'bot',
+            timestamp: new Date()
+          };
+          
+          setMessages([botMessage]);
+          setConversationHistory([{ text: greeting, sender: 'bot' }]);
+        } catch (error) {
+          console.error('Error generating greeting:', error);
+          // Fallback greeting if AI fails
+          const fallbackGreeting = {
+            id: Date.now(),
+            text: "Hello! How can I help you today?",
+            sender: 'bot',
+            timestamp: new Date()
+          };
+          setMessages([fallbackGreeting]);
+          setConversationHistory([{ text: fallbackGreeting.text, sender: 'bot' }]);
+        } finally {
+          setIsTyping(false);
+        }
+      }
     }
   };
 
