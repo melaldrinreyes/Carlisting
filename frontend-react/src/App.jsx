@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
+import ChatBot from './components/ChatBot'
 import Landing from './pages/Landing'
 import CarListing from './pages/CarListing'
 import Order from './pages/Order'
@@ -75,7 +76,10 @@ function App() {
 
   return (
     <AuthProvider>
-      <div className="app">{renderPage()}</div>
+      <div className="app">
+        {renderPage()}
+        <ChatBot />
+      </div>
     </AuthProvider>
   )
 }
