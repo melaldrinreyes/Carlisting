@@ -51,7 +51,7 @@ const Landing = () => {
           <div className="hero-buttons">
             <Button variant="primary" href="#/listings">
               <FaCar className="btn-icon" />
-              View All Inventory
+              View All Cars
             </Button>
             <Button variant="secondary" href="#/order">
               <IoRocketSharp className="btn-icon" />
