@@ -3,6 +3,29 @@ import { FaComments, FaTimes, FaPaperPlane, FaCar } from 'react-icons/fa';
 import OpenAI from 'openai';
 import './ChatBot.css';
 
+// Initialize OpenAI client once outside component
+const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || '';
+let openaiClient = null;
+
+if (OPENROUTER_API_KEY && OPENROUTER_API_KEY !== 'your-openrouter-api-key-here') {
+  try {
+    openaiClient = new OpenAI({
+      apiKey: OPENROUTER_API_KEY,
+      baseURL: 'https://openrouter.ai/api/v1',
+      defaultHeaders: {
+        'HTTP-Referer': typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5174',
+        'X-Title': 'AutoDeals ChatBot'
+      },
+      dangerouslyAllowBrowser: true
+    });
+    console.log('✅ OpenAI client initialized successfully with API key');
+  } catch (error) {
+    console.error('❌ Failed to initialize OpenAI client:', error);
+  }
+} else {
+  console.warn('⚠️ OpenRouter API key not found or invalid');
+}
+
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -153,30 +176,14 @@ const ChatBot = () => {
 
   const getAIResponse = async (userMessage) => {
     try {
-      // Using OpenRouter API with SDK
-      const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || '';
-      
-      // Check if API key is available
-      if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY === 'your-openrouter-api-key-here') {
-        console.log('OpenRouter API key not configured, using fallback');
+      // Check if OpenAI client is available
+      if (!openaiClient) {
+        console.log('⚠️ OpenRouter API not available, using fallback');
         return await getAlternativeAIResponse(userMessage);
       }
       
-      console.log('Using OpenRouter SDK with FREE model...');
-      console.log('API Key loaded:', OPENROUTER_API_KEY ? 'Yes (length: ' + OPENROUTER_API_KEY.length + ')' : 'No');
-      
-      // Initialize OpenAI SDK with OpenRouter configuration
-      const openai = new OpenAI({
-        apiKey: OPENROUTER_API_KEY,
-        baseURL: 'https://openrouter.ai/api/v1',
-        defaultHeaders: {
-          'HTTP-Referer': window.location.origin,
-          'X-Title': 'AutoDeals ChatBot'
-        },
-        dangerouslyAllowBrowser: true // Required for client-side usage
-      });
-      
-      console.log('OpenAI SDK initialized successfully');
+      console.log('🚀 Calling OpenRouter API with FREE Meta LLaMA model...');
+      console.log('📝 User message:', userMessage);
       
       // Build conversation context for better continuity
       const conversationMessages = [
@@ -230,17 +237,15 @@ Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-ca
         content: userMessage
       });
 
-      // Use SDK to make the API call with FREE model
-      console.log('Calling OpenRouter API with FREE model...');
       
       // Create a timeout promise
       const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('API request timeout after 30 seconds')), 30000)
+        setTimeout(() => reject(new Error('⏱️ API request timeout after 30 seconds')), 30000)
       );
       
       // Race between API call and timeout
       const completion = await Promise.race([
-        openai.chat.completions.create({
+        openaiClient.chat.completions.create({
           model: 'meta-llama/llama-3.2-3b-instruct:free', // FREE Meta LLaMA model - highly reliable!
           messages: conversationMessages,
           temperature: 0.7,
@@ -250,27 +255,26 @@ Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-ca
         timeoutPromise
       ]);
 
-      console.log('OpenRouter SDK response received:', completion);
-      
+      console.log('✅ OpenRouter response received:', completion);      
       if (completion && completion.choices && completion.choices[0] && completion.choices[0].message) {
         const generatedText = completion.choices[0].message.content;
-        console.log('AI Response:', generatedText);
+        console.log('💬 AI Response:', generatedText);
         
         if (generatedText && generatedText.trim().length > 0) {
           return generatedText.trim();
         }
       }
       
-      console.log('No valid response from primary AI, trying fallback...');
+      console.log('⚠️ No valid response from primary AI, trying fallback...');
       throw new Error('Invalid OpenRouter response - no valid content received');
     } catch (error) {
-      console.error('OpenRouter SDK Error Details:', {
+      console.error('❌ OpenRouter API Error:', {
         message: error.message,
-        stack: error.stack,
-        error: error,
-        type: error.constructor.name
+        type: error.constructor.name,
+        status: error.status,
+        statusText: error.statusText
       });
-      console.log('Falling back to alternative AI...');
+      console.log('🔄 Falling back to alternative AI...');
       return await getAlternativeAIResponse(userMessage);
     }
   };
