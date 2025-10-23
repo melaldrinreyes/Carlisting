@@ -240,8 +240,8 @@ Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-ca
         stack: error.stack,
         error: error
       });
-      console.log('AI service error - will show connection message to user');
-      throw error; // Let error handler show connection message
+      console.log('Falling back to alternative AI...');
+      return await getAlternativeAIResponse(userMessage);
     }
   };
 
