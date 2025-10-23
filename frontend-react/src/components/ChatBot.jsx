@@ -172,12 +172,12 @@ Be helpful, accurate, and conversational. Keep responses concise (2-4 sentences)
       });
 
       // Use SDK to make the API call with FREE model
-      console.log('Calling OpenRouter API with FREE LLaMA model...');
+      console.log('Calling OpenRouter API with FREE model...');
       const completion = await openai.chat.completions.create({
-        model: 'meta-llama/llama-3.1-8b-instruct:free', // FREE LLaMA model
+        model: 'nousresearch/hermes-3-llama-3.1-405b:free', // FREE Hermes model - very reliable
         messages: conversationMessages,
         temperature: 0.7,
-        max_tokens: 300
+        max_tokens: 500
       });
 
       console.log('OpenRouter SDK response received:', completion);
