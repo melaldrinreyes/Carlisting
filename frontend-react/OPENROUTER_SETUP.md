@@ -44,13 +44,13 @@ VITE_OPENROUTER_API_KEY=sk-or-v1-your-actual-key-here
 
 The ChatBot is configured to use:
 - **SDK**: OpenAI SDK with OpenRouter baseURL
-- **Model**: `meta-llama/llama-3.1-8b-instruct:free` (**100% FREE - No credits needed!**)
+- **Model**: `google/gemma-2-9b-it:free` (**100% FREE - No credits needed!**)
 - **Temperature**: 0.7 (balanced creativity)
 - **Max Tokens**: 300 (concise responses)
 - **Context**: Last 6 messages for conversation continuity
 - **Client-side**: Uses `dangerouslyAllowBrowser: true` for frontend usage
 
-**Note:** This FREE model doesn't require any payment or credits! It's powered by Meta's LLaMA 3.1 and works great for most chatbot needs.
+**Note:** This FREE Google Gemma model is highly reliable and doesn't require any payment or credits! It's one of the most stable free models available on OpenRouter.
 
 ## Fallback System
 
@@ -89,10 +89,11 @@ Open browser DevTools (F12 → Console) to see:
 ## Cost Optimization
 
 The current model is **100% FREE!**
-- **LLaMA 3.1 8B**: Completely free, no charges
+- **Google Gemma 2 9B**: Completely free, no charges
 - No credits needed in your OpenRouter account
 - Unlimited usage (subject to fair use policies)
-- Great quality responses for chatbot applications
+- Excellent quality responses from Google's latest model
+- Very reliable and stable
 
 To monitor usage:
 1. Visit [OpenRouter Dashboard](https://openrouter.ai/activity)
@@ -103,11 +104,11 @@ To monitor usage:
 You can switch to other models by changing the `model` parameter in `ChatBot.jsx`:
 
 ```javascript
-model: 'meta-llama/llama-3.1-8b-instruct:free',  // Current (100% FREE!)
-// model: 'google/gemma-2-9b-it:free',            // Also FREE
-// model: 'mistralai/mistral-7b-instruct:free',   // Also FREE
-// model: 'openai/gpt-3.5-turbo',                 // Paid but faster (requires credits)
-// model: 'openai/gpt-4',                         // Paid, most intelligent (requires credits)
+model: 'google/gemma-2-9b-it:free',                // Current (100% FREE! Most reliable)
+// model: 'meta-llama/llama-3.1-8b-instruct:free',  // Also FREE
+// model: 'mistralai/mistral-7b-instruct:free',     // Also FREE
+// model: 'openai/gpt-3.5-turbo',                   // Paid but faster (requires credits)
+// model: 'openai/gpt-4',                           // Paid, most intelligent (requires credits)
 ```
 
 ## Production Deployment

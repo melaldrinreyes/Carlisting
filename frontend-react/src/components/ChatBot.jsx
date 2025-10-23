@@ -172,9 +172,9 @@ Be helpful, accurate, and conversational. Keep responses concise (2-4 sentences)
       });
 
       // Use SDK to make the API call with FREE model
-      console.log('Calling OpenRouter API with FREE LLaMA model...');
+      console.log('Calling OpenRouter API with FREE model...');
       const completion = await openai.chat.completions.create({
-        model: 'meta-llama/llama-3.1-8b-instruct:free', // FREE model - no credits required!
+        model: 'google/gemma-2-9b-it:free', // FREE Google Gemma model - highly reliable!
         messages: conversationMessages,
         temperature: 0.7,
         max_tokens: 300
