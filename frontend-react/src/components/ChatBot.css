@@ -1,6 +1,8 @@
 /* Chat Bot Button */
 .chat-bot-button {
   position: fixed;
+  right: 2rem;
+  bottom: 90px;
   width: 60px;
   height: 60px;
   border-radius: 50%;
