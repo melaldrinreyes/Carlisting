@@ -320,7 +320,7 @@ Assistant Response:`;
         aria-label="Toggle chat"
         title="Drag to move vertically"
       >
-        {isOpen ? <FaTimes /> : <FaComments />}
+        <FaComments />
         {!isOpen && <span className="chat-pulse"></span>}
       </button>
 
