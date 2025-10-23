@@ -240,81 +240,13 @@ Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-ca
         stack: error.stack,
         error: error
       });
-      console.log('Falling back to alternative AI...');
-      return await getAlternativeAIResponse(userMessage);
+      console.log('AI service error - will show connection message to user');
+      throw error; // Let error handler show connection message
     }
   };
 
   const getAlternativeAIResponse = async (userMessage) => {
-    try {
-      // Alternative: Use a different free AI API
-      const response = await fetch('https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          inputs: {
-            past_user_inputs: conversationHistory
-              .filter(m => m.sender === 'user')
-              .map(m => m.text)
-              .slice(-3),
-            generated_responses: conversationHistory
-              .filter(m => m.sender === 'bot')
-              .map(m => m.text)
-              .slice(-3),
-            text: userMessage
-          },
-          parameters: {
-            max_length: 200
-          }
-        })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data && data.generated_text) {
-          return data.generated_text.trim();
-        }
-      }
-      
-      // If both APIs fail, use enhanced responses
-      return getFallbackResponse(userMessage);
-    } catch (error) {
-      console.error('Alternative AI Error:', error);
-      return getFallbackResponse(userMessage);
-    }
-  };
-
-  const getFallbackResponse = (userMessage) => {
-    const message = userMessage.toLowerCase();
-    
-    // Enhanced rule-based responses
-    if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
-      return "Hello! 👋 Welcome to AutoDeals. I'm here to help you find your perfect car. What are you looking for today?";
-    } else if (message.includes('price') || message.includes('cost') || message.includes('budget')) {
-      return "Our inventory ranges from affordable daily drivers to luxury vehicles. 💰\n\nTypical price ranges:\n• Economy cars: $15,000 - $25,000\n• Mid-size sedans: $25,000 - $40,000\n• SUVs: $30,000 - $60,000\n• Luxury vehicles: $50,000+\n\nWhat's your budget range? I can help you find the best options!";
-    } else if (message.includes('suv') || message.includes('sedan') || message.includes('truck') || message.includes('sports')) {
-      return "Great choice! 🚗 We have excellent options in that category. Check out our Car Listings page to see all available vehicles with detailed specs and photos. Would you like to know about specific features or compare models?";
-    } else if (message.includes('electric') || message.includes('ev') || message.includes('hybrid')) {
-      return "We have eco-friendly options! 🌱⚡\n\nOur green vehicle lineup includes:\n• Full electric vehicles (EVs)\n• Plug-in hybrids\n• Traditional hybrids\n\nThey offer great fuel savings and environmental benefits. Would you like to know more about charging, range, or incentives?";
-    } else if (message.includes('financing') || message.includes('loan') || message.includes('payment')) {
-      return "We offer flexible financing options! 💳\n\n• Competitive interest rates\n• Multiple loan terms (36-72 months)\n• Trade-in evaluations\n• Special offers for qualified buyers\n\nOur finance team can work with your credit situation. Would you like to discuss monthly payment estimates?";
-    } else if (message.includes('test drive') || message.includes('visit') || message.includes('showroom')) {
-      return "We'd love to see you at our showroom! 🏢\n\nSchedule a test drive:\n📍 123 Auto Street, Car City\n📞 Call: +1 (555) 123-4567\n⏰ Mon-Fri: 9AM-6PM, Sat: 10AM-4PM\n\nYou can also visit our Order page to request a specific vehicle test drive!";
-    } else if (message.includes('contact') || message.includes('phone') || message.includes('email') || message.includes('reach')) {
-      return "Here's how to reach us! 📞\n\n� Phone: +1 (555) 123-4567\n📧 Email: info@autodeals.com\n📍 Address: 123 Auto Street, Car City\n⏰ Hours: Mon-Fri 9AM-6PM, Sat 10AM-4PM\n\nYou can also fill out our contact form for a quick response!";
-    } else if (message.includes('warranty') || message.includes('guarantee')) {
-      return "All our vehicles come with protection! 🛡️\n\n• Comprehensive warranty coverage\n• Extended warranty options\n• Certified pre-owned guarantees\n• 30-day exchange policy\n\nWe stand behind every vehicle we sell. Need details on a specific car?";
-    } else if (message.includes('trade') || message.includes('trade-in')) {
-      return "We accept trade-ins! 🔄\n\nGet the best value for your current vehicle:\n• Free appraisal\n• Competitive offers\n• Quick process\n• Apply trade value to your purchase\n\nBring your car by or describe it to us, and we'll give you an estimate!";
-    } else if (message.includes('thank') || message.includes('thanks')) {
-      return "You're very welcome! 😊 I'm here anytime you need help. Happy car shopping, and feel free to ask me anything else! 🚗✨";
-    } else if (message.includes('help') || message.includes('assist') || message.includes('can you')) {
-      return "I'm here to help with everything! 🤝\n\n✅ Browse our inventory\n✅ Compare cars and features\n✅ Pricing and financing info\n✅ Test drive scheduling\n✅ Trade-in valuations\n✅ Warranty details\n✅ Contact information\n\nWhat specific question can I answer for you?";
-    } else {
-      return "That's a great question! 🤔 I'd be happy to provide more specific information. Could you tell me more about what you're looking for? Are you interested in:\n\n• Viewing our car listings?\n• Learning about prices?\n• Scheduling a test drive?\n• Financing options?\n• Something else?\n\nJust let me know!";
-    }
+    throw new Error("AI service temporarily unavailable");
   };
 
   const handleSendMessage = async (e) => {
@@ -357,7 +289,7 @@ Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-ca
       console.error('Error getting response:', error);
       const errorResponse = {
         id: messages.length + 2,
-        text: "I apologize, I'm having trouble connecting right now. 😅 But I can still help you! Try asking about our cars, pricing, or contact information.",
+        text: "I apologize, I'm experiencing a temporary connection issue. Please try again in a moment! 🔄",
         sender: 'bot',
         timestamp: new Date()
       };
