@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FaComments, FaTimes, FaPaperPlane, FaRobot } from 'react-icons/fa';
+import { FaComments, FaTimes, FaPaperPlane, FaCar } from 'react-icons/fa';
 import './ChatBot.css';
 
 const ChatBot = () => {
@@ -348,7 +348,7 @@ Provide a helpful, accurate, and engaging response (2-4 sentences). Be natural a
         <div className="chat-bot-header">
           <div className="chat-bot-header-content">
             <div className="chat-bot-avatar">
-              <FaRobot />
+              <FaCar />
             </div>
             <div className="chat-bot-title">
               <h3>AutoDeals Assistant</h3>
@@ -376,7 +376,7 @@ Provide a helpful, accurate, and engaging response (2-4 sentences). Be natural a
             >
               {message.sender === 'bot' && (
                 <div className="message-avatar">
-                  <FaRobot />
+                  <FaCar />
                 </div>
               )}
               <div className="message-content">
@@ -393,7 +393,7 @@ Provide a helpful, accurate, and engaging response (2-4 sentences). Be natural a
           {isTyping && (
             <div className="chat-message bot">
               <div className="message-avatar">
-                <FaRobot />
+                <FaCar />
               </div>
               <div className="message-content">
                 <div className="message-bubble typing">
