@@ -1,12 +1,13 @@
 # OpenRouter API Setup Guide
 
-This guide will help you set up the OpenRouter API for the AutoDeals ChatBot.
+This guide will help you set up the OpenRouter API with SDK for the AutoDeals ChatBot.
 
-## Why OpenRouter?
+## Why OpenRouter with SDK?
 
 OpenRouter provides:
 - ✅ **Multiple AI Models**: Access GPT-3.5, GPT-4, Claude, and more
 - ✅ **CORS Support**: Works perfectly from frontend applications
+- ✅ **SDK Integration**: Clean, type-safe API calls using OpenAI SDK
 - ✅ **Pay-per-use**: No subscription required
 - ✅ **Reliable**: Better uptime and response rates
 
@@ -42,10 +43,12 @@ VITE_OPENROUTER_API_KEY=sk-or-v1-your-actual-key-here
 ## Current Configuration
 
 The ChatBot is configured to use:
+- **SDK**: OpenAI SDK with OpenRouter baseURL
 - **Model**: `openai/gpt-3.5-turbo` (fast and cost-effective)
 - **Temperature**: 0.7 (balanced creativity)
 - **Max Tokens**: 300 (concise responses)
 - **Context**: Last 6 messages for conversation continuity
+- **Client-side**: Uses `dangerouslyAllowBrowser: true` for frontend usage
 
 ## Fallback System
 
@@ -56,10 +59,9 @@ If OpenRouter API fails, the ChatBot automatically falls back to:
 ## Console Logs
 
 Open browser DevTools (F12 → Console) to see:
-- `Using OpenRouter API...` - API call started
+- `Using OpenRouter SDK...` - SDK initialized
 - `API Key loaded: Yes (length: X)` - Key detected
-- `API Response status: 200 OK` - Success
-- `OpenRouter response received` - Response parsed
+- `OpenRouter SDK response received` - Response parsed successfully
 
 ## Troubleshooting
 

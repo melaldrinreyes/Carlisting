@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaComments, FaTimes, FaPaperPlane, FaCar } from 'react-icons/fa';
+import OpenAI from 'openai';
 import './ChatBot.css';
 
 const ChatBot = () => {
@@ -109,18 +110,28 @@ const ChatBot = () => {
 
   const getAIResponse = async (userMessage) => {
     try {
-      // Using OpenRouter API - Add your API key in .env file as VITE_OPENROUTER_API_KEY
+      // Using OpenRouter API with SDK
       const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || '';
-      const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
       
       // Check if API key is available
-      if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY === 'your-openrouter-api-key-here') {
+      if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY === '62b24e2e3ce768d22fea05d7baabc7983b7c16d4111f157a2d7a6f371e684d7c') {
         console.log('OpenRouter API key not configured, using fallback');
         return await getAlternativeAIResponse(userMessage);
       }
       
-      console.log('Using OpenRouter API...');
+      console.log('Using OpenRouter SDK...');
       console.log('API Key loaded:', OPENROUTER_API_KEY ? 'Yes (length: ' + OPENROUTER_API_KEY.length + ')' : 'No');
+      
+      // Initialize OpenAI SDK with OpenRouter configuration
+      const openai = new OpenAI({
+        apiKey: OPENROUTER_API_KEY,
+        baseURL: 'https://openrouter.ai/api/v1',
+        defaultHeaders: {
+          'HTTP-Referer': window.location.origin,
+          'X-Title': 'AutoDeals ChatBot'
+        },
+        dangerouslyAllowBrowser: true // Required for client-side usage
+      });
       
       // Build conversation context for better continuity
       const conversationMessages = [
@@ -160,35 +171,18 @@ Be helpful, accurate, and conversational. Keep responses concise (2-4 sentences)
         content: userMessage
       });
 
-      const response = await fetch(OPENROUTER_API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-          'HTTP-Referer': window.location.origin,
-          'X-Title': 'AutoDeals ChatBot'
-        },
-        body: JSON.stringify({
-          model: 'openai/gpt-3.5-turbo',
-          messages: conversationMessages,
-          temperature: 0.7,
-          max_tokens: 300
-        })
+      // Use SDK to make the API call
+      const completion = await openai.chat.completions.create({
+        model: 'openai/gpt-3.5-turbo',
+        messages: conversationMessages,
+        temperature: 0.7,
+        max_tokens: 300
       });
 
-      console.log('API Response status:', response.status, response.statusText);
-
-      if (!response.ok) {
-        const errorData = await response.text();
-        console.error('OpenRouter API error:', response.status, errorData);
-        return await getAlternativeAIResponse(userMessage);
-      }
-
-      const data = await response.json();
-      console.log('OpenRouter response received');
+      console.log('OpenRouter SDK response received');
       
-      if (data && data.choices && data.choices[0] && data.choices[0].message) {
-        const generatedText = data.choices[0].message.content.trim();
+      if (completion && completion.choices && completion.choices[0] && completion.choices[0].message) {
+        const generatedText = completion.choices[0].message.content.trim();
         
         if (generatedText.length > 10) {
           return generatedText;
@@ -197,7 +191,7 @@ Be helpful, accurate, and conversational. Keep responses concise (2-4 sentences)
       
       throw new Error('Invalid OpenRouter response');
     } catch (error) {
-      console.error('OpenRouter AI Error:', error);
+      console.error('OpenRouter SDK Error:', error);
       return await getAlternativeAIResponse(userMessage);
     }
   };
