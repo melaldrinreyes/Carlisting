@@ -10,14 +10,14 @@ export const carsData = [
   {
     id: 2,
     model: "BMW 3 Series",
-    image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2020/04/10/16/30/bmw-5026961_1280.jpg",
     description: "Luxury sedan with premium features and performance",
     price: "$48,000"
   },
   {
     id: 3,
     model: "Ford Mustang",
-    image: "https://images.unsplash.com/photo-1547744152-14d985cb937f?w=500&h=300&fit=crop",
+    image: "https://cdn.pixabay.com/photo/2016/04/01/12/16/car-1300629_1280.png",
     description: "Powerful sports car with iconic design",
     price: "$45,000"
   },
@@ -41,5 +41,47 @@ export const carsData = [
     image: "https://cdn.pixabay.com/photo/2017/03/27/14/56/auto-2179220_1280.jpg",
     description: "American sports car with exceptional performance",
     price: "$65,000"
+  },
+  {
+    id: 7,
+    model: "Honda Civic",
+    image: "https://cdn.pixabay.com/photo/2017/03/05/00/34/panorama-2117310_1280.jpg",
+    description: "Reliable and fuel-efficient sedan with modern features",
+    price: "$25,000"
+  },
+  {
+    id: 8,
+    model: "Toyota Camry",
+    image: "https://cdn.pixabay.com/photo/2020/05/11/13/53/toyota-5158963_1280.jpg",
+    description: "Spacious and comfortable family sedan",
+    price: "$28,500"
+  },
+  {
+    id: 9,
+    model: "Mazda CX-5",
+    image: "https://cdn.pixabay.com/photo/2020/12/27/20/25/car-5865835_1280.jpg",
+    description: "Stylish SUV with great handling",
+    price: "$32,000"
+  },
+  {
+    id: 10,
+    model: "Nissan Altima",
+    image: "https://cdn.pixabay.com/photo/2016/11/18/14/39/car-1834279_1280.jpg",
+    description: "Comfortable mid-size sedan with tech features",
+    price: "$27,500"
+  },
+  {
+    id: 11,
+    model: "Volkswagen Golf",
+    image: "https://cdn.pixabay.com/photo/2016/12/03/18/57/golf-1880498_1280.jpg",
+    description: "Compact hatchback with European styling",
+    price: "$24,000"
+  },
+  {
+    id: 12,
+    model: "Hyundai Sonata",
+    image: "https://cdn.pixabay.com/photo/2019/07/07/14/03/hyundai-4322985_1280.jpg",
+    description: "Value-packed sedan with modern design",
+    price: "$26,000"
   }
 ];
