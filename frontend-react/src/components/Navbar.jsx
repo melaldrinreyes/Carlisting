@@ -46,7 +46,10 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const handleLoginClick = () => {
+  const handleLoginClick = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
     setIsLoginModalOpen(true);
     setIsMobileMenuOpen(false);
   };
@@ -94,19 +97,19 @@ const Navbar = () => {
                     Logout
                   </button>
                 </li>
-            </>
-          ) : (
-            <li>
-              <button onClick={handleLoginClick} className="navbar-auth-btn login-btn">
-                Login
-              </button>
-            </li>
-          )}
-        </ul>
-      </div>
+              </>
+            ) : (
+              <li>
+                <button onClick={handleLoginClick} className="navbar-auth-btn login-btn">
+                  Login
+                </button>
+              </li>
+            )}
+          </ul>
+        </div>
+      </nav>
 
-      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
-    </nav>      {/* Bottom Navigation for Mobile */}
+      {/* Bottom Navigation for Mobile */}
       <nav className="bottom-nav">
         <a href="#/" className="bottom-nav-item">
           <FaHome className="bottom-nav-icon" />
@@ -136,6 +139,12 @@ const Navbar = () => {
           </button>
         )}
       </nav>
+
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        onClose={() => setIsLoginModalOpen(false)} 
+      />
     </>
   );
 };

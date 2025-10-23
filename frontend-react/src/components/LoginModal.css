@@ -1,7 +1,5 @@
 .login-modal-content {
   padding: 0;
-  display: flex;
-  flex-direction: column;
 }
 
 .login-subtitle {
@@ -142,8 +140,6 @@
 .demo-info strong {
   color: #fbbf24;
   font-weight: 600;
-  display: block;
-  margin-bottom: 0.25rem;
 }
 
 /* Responsive */

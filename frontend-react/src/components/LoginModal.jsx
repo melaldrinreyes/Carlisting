@@ -27,7 +27,6 @@ const LoginModal = ({ isOpen, onClose }) => {
 
     const result = login(email, password);
     if (result.success) {
-      // Close modal and redirect
       onClose();
       setEmail('');
       setPassword('');
@@ -50,17 +49,17 @@ const LoginModal = ({ isOpen, onClose }) => {
       <div className="login-modal-content">
         <p className="login-subtitle">Sign in to access your account</p>
 
-        <form onSubmit={handleSubmit} className="login-form" autoComplete="on">
+        <form onSubmit={handleSubmit} className="login-form">
           {error && <div className="error-message">{error}</div>}
 
           <div className="form-group">
-            <label htmlFor="email">
+            <label htmlFor="modal-email">
               <FaEnvelope className="input-icon" />
               Email Address
             </label>
             <input
               type="email"
-              id="email"
+              id="modal-email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
@@ -69,14 +68,14 @@ const LoginModal = ({ isOpen, onClose }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">
+            <label htmlFor="modal-password">
               <FaLock className="input-icon" />
               Password
             </label>
             <div className="password-input-wrapper">
               <input
                 type={showPassword ? 'text' : 'password'}
-                id="password"
+                id="modal-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
