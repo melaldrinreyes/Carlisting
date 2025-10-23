@@ -340,13 +340,6 @@ Assistant Response:`;
               </span>
             </div>
           </div>
-          <button 
-            className="chat-bot-close"
-            onClick={toggleChat}
-            aria-label="Close chat"
-          >
-            <FaTimes />
-          </button>
         </div>
 
         {/* Chat Messages */}
