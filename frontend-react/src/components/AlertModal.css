@@ -1,0 +1,134 @@
+/* Alert Modal Content */
+.alert-modal-content {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.alert-modal-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.alert-modal-icon {
+  font-size: 4rem;
+  animation: alertIconPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes alertIconPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Icon Colors */
+.alert-modal-icon.success {
+  color: #22c55e;
+  filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.3));
+}
+
+.alert-modal-icon.error {
+  color: #ef4444;
+  filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.3));
+}
+
+.alert-modal-icon.warning {
+  color: #f59e0b;
+  filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.3));
+}
+
+.alert-modal-icon.info {
+  color: #3b82f6;
+  filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3));
+}
+
+/* Message */
+.alert-modal-message {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin: 0;
+  animation: alertMessageFadeIn 0.4s ease 0.2s backwards;
+}
+
+@keyframes alertMessageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Type-specific backgrounds (subtle) */
+.alert-modal-content.success {
+  background: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.03) 0%,
+    rgba(34, 197, 94, 0.08) 100%
+  );
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+}
+
+.alert-modal-content.error {
+  background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.03) 0%,
+    rgba(239, 68, 68, 0.08) 100%
+  );
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+}
+
+.alert-modal-content.warning {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.03) 0%,
+    rgba(245, 158, 11, 0.08) 100%
+  );
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+}
+
+.alert-modal-content.info {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.03) 0%,
+    rgba(59, 130, 246, 0.08) 100%
+  );
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .alert-modal-icon {
+    font-size: 3.5rem;
+  }
+
+  .alert-modal-icon-wrapper {
+    margin-bottom: 1.25rem;
+  }
+
+  .alert-modal-message {
+    font-size: 1rem;
+  }
+
+  .alert-modal-content.success,
+  .alert-modal-content.error,
+  .alert-modal-content.warning,
+  .alert-modal-content.info {
+    padding: 1.75rem 1.25rem;
+  }
+}

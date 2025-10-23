@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Button from '../components/Button';
+import AlertModal from '../components/AlertModal';
 import { carsData } from '../data/carsData';
 import './Order.css';
 
@@ -30,20 +31,19 @@ const Order = () => {
     e.preventDefault();
     console.log('Order submitted:', formData);
     setSubmitted(true);
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setFormData({
-        fullName: '',
-        email: '',
-        phone: '',
-        carModel: '',
-        paymentMethod: 'cash',
-        address: '',
-        message: ''
-      });
-      setSubmitted(false);
-    }, 3000);
+  };
+
+  const handleAlertClose = () => {
+    setSubmitted(false);
+    setFormData({
+      fullName: '',
+      email: '',
+      phone: '',
+      carModel: '',
+      paymentMethod: 'cash',
+      address: '',
+      message: ''
+    });
   };
 
   return (
@@ -54,14 +54,7 @@ const Order = () => {
         <h1 className="order-title">Order Your Dream Car</h1>
         <p className="order-subtitle">Fill out the form below and we'll get back to you shortly</p>
 
-        {submitted ? (
-          <div className="success-message">
-            <div className="success-icon">✅</div>
-            <h2>Order Submitted Successfully!</h2>
-            <p>Thank you for your order. We'll contact you soon.</p>
-          </div>
-        ) : (
-          <form className="order-form" onSubmit={handleSubmit}>
+        <form className="order-form" onSubmit={handleSubmit}>
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="fullName">Full Name *</label>
@@ -173,8 +166,19 @@ const Order = () => {
               </Button>
             </div>
           </form>
-        )}
       </div>
+
+      {/* Alert Modal */}
+      <AlertModal
+        isOpen={submitted}
+        onClose={handleAlertClose}
+        type="success"
+        title="Order Submitted!"
+        message="Thank you for your order. We'll contact you soon."
+        autoClose={true}
+        autoCloseDuration={3000}
+      />
+
       <Footer />
     </div>
   );

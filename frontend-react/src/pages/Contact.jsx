@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Button from '../components/Button';
+import AlertModal from '../components/AlertModal';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 import './Contact.css';
 
@@ -28,18 +29,17 @@ const Contact = () => {
     e.preventDefault();
     console.log('Contact form submitted:', formData);
     setSubmitted(true);
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
-      });
-      setSubmitted(false);
-    }, 3000);
+  };
+
+  const handleAlertClose = () => {
+    setSubmitted(false);
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      subject: '',
+      message: ''
+    });
   };
 
   return (
@@ -100,14 +100,7 @@ const Contact = () => {
           <div className="contact-form-section">
             <h2 className="section-heading">Send Us a Message</h2>
             
-            {submitted ? (
-              <div className="success-message">
-                <div className="success-icon">✅</div>
-                <h3>Message Sent Successfully!</h3>
-                <p>Thank you for contacting us. We'll get back to you shortly.</p>
-              </div>
-            ) : (
-              <form className="contact-form" onSubmit={handleSubmit}>
+            <form className="contact-form" onSubmit={handleSubmit}>
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="name">Full Name *</label>
@@ -185,10 +178,21 @@ const Contact = () => {
                   </Button>
                 </div>
               </form>
-            )}
           </div>
         </div>
       </div>
+
+      {/* Alert Modal */}
+      <AlertModal
+        isOpen={submitted}
+        onClose={handleAlertClose}
+        type="success"
+        title="Message Sent!"
+        message="Thank you for contacting us. We'll get back to you shortly."
+        autoClose={true}
+        autoCloseDuration={3000}
+      />
+
       <Footer />
     </div>
   );
