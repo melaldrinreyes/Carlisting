@@ -312,25 +312,27 @@ Assistant Response:`;
   return (
     <>
       {/* Floating Chat Button */}
-      <button 
-        ref={buttonRef}
-        className={`chat-bot-button ${isOpen ? 'open' : ''} ${isDragging ? 'dragging' : ''}`}
-        style={{
-          left: position.x !== null ? `${position.x}px` : 'auto',
-          top: position.y !== null ? `${position.y}px` : 'auto',
-          right: position.x === null ? '2rem' : 'auto',
-          bottom: position.y === null ? '90px' : 'auto',
-          cursor: isDragging ? 'grabbing' : (isOpen ? 'pointer' : 'grab')
-        }}
-        onClick={toggleChat}
-        onMouseDown={handleDragStart}
-        onTouchStart={handleDragStart}
-        aria-label="Toggle chat"
-        title="Drag to move, click to open chat"
-      >
-        <FaComments />
-        {!isOpen && <span className="chat-pulse"></span>}
-      </button>
+      {!isOpen && (
+        <button 
+          ref={buttonRef}
+          className={`chat-bot-button ${isDragging ? 'dragging' : ''}`}
+          style={{
+            left: position.x !== null ? `${position.x}px` : 'auto',
+            top: position.y !== null ? `${position.y}px` : 'auto',
+            right: position.x === null ? '2rem' : 'auto',
+            bottom: position.y === null ? '90px' : 'auto',
+            cursor: isDragging ? 'grabbing' : 'grab'
+          }}
+          onClick={toggleChat}
+          onMouseDown={handleDragStart}
+          onTouchStart={handleDragStart}
+          aria-label="Toggle chat"
+          title="Drag to move, click to open chat"
+        >
+          <FaComments />
+          <span className="chat-pulse"></span>
+        </button>
+      )}
 
       {/* Chat Panel */}
       <div className={`chat-bot-panel ${isOpen ? 'open' : ''}`}>
