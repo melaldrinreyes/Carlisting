@@ -171,16 +171,18 @@ Be helpful, accurate, and conversational. Keep responses concise (2-4 sentences)
         content: userMessage
       });
 
-      // Use SDK to make the API call with FREE model
-      console.log('Calling OpenRouter API with FREE model...');
+      // Use SDK to make the API call with FREE unlimited model
+      console.log('Calling OpenRouter API with Qwen 2.5 7B (FREE & unlimited)...');
       const completion = await openai.chat.completions.create({
-        model: 'nousresearch/hermes-3-llama-3.1-405b:free', // FREE Hermes model - very reliable
+        model: 'qwen/qwen-2.5-7b-instruct:free', // FREE unlimited model - very stable
         messages: conversationMessages,
         temperature: 0.7,
         max_tokens: 500
       });
 
-      console.log('OpenRouter SDK response received:', completion);
+      console.log('✅ OpenRouter API SUCCESS! Response:', completion);
+      console.log('Model used:', completion.model);
+      console.log('Finish reason:', completion.choices[0]?.finish_reason);
       
       if (completion && completion.choices && completion.choices[0] && completion.choices[0].message) {
         const generatedText = completion.choices[0].message.content.trim();
@@ -193,11 +195,20 @@ Be helpful, accurate, and conversational. Keep responses concise (2-4 sentences)
       
       throw new Error('Invalid OpenRouter response');
     } catch (error) {
-      console.error('OpenRouter SDK Error Details:', {
-        message: error.message,
-        stack: error.stack,
-        error: error
-      });
+      console.error('❌ OpenRouter API FAILED!');
+      console.error('Error type:', error.constructor.name);
+      console.error('Error message:', error.message);
+      console.error('Full error:', error);
+      
+      // Check for specific error types
+      if (error.message?.includes('401') || error.message?.includes('Unauthorized')) {
+        console.error('🔑 API KEY ISSUE: Check if your OpenRouter API key is valid');
+      } else if (error.message?.includes('429') || error.message?.includes('rate limit')) {
+        console.error('⏱️ RATE LIMIT: Free model is being used too much, trying fallback...');
+      } else if (error.message?.includes('model')) {
+        console.error('🤖 MODEL ISSUE: LLaMA model might not be available right now');
+      }
+      
       console.log('Falling back to alternative AI...');
       return await getAlternativeAIResponse(userMessage);
     }
@@ -205,75 +216,112 @@ Be helpful, accurate, and conversational. Keep responses concise (2-4 sentences)
 
   const getAlternativeAIResponse = async (userMessage) => {
     try {
-      // Alternative: Use a different free AI API
+      console.log('🔄 Trying alternative AI: Hugging Face Blenderbot...');
+      // Alternative: Use Hugging Face BlenderBot - a conversational AI
       const response = await fetch('https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          inputs: {
-            past_user_inputs: conversationHistory
-              .filter(m => m.sender === 'user')
-              .map(m => m.text)
-              .slice(-3),
-            generated_responses: conversationHistory
-              .filter(m => m.sender === 'bot')
-              .map(m => m.text)
-              .slice(-3),
-            text: userMessage
-          },
+          inputs: userMessage,
           parameters: {
-            max_length: 200
+            max_length: 200,
+            min_length: 20
           }
         })
       });
 
       if (response.ok) {
         const data = await response.json();
+        console.log('Blenderbot response:', data);
+        
+        // Handle array response
+        if (Array.isArray(data) && data.length > 0 && data[0].generated_text) {
+          const aiText = data[0].generated_text.trim();
+          console.log('✅ Blenderbot AI Response:', aiText);
+          return aiText;
+        }
+        // Handle object response
         if (data && data.generated_text) {
-          return data.generated_text.trim();
+          const aiText = data.generated_text.trim();
+          console.log('✅ Blenderbot AI Response:', aiText);
+          return aiText;
         }
       }
       
-      // If both APIs fail, use enhanced responses
-      return getFallbackResponse(userMessage);
+      console.log('⚠️ Blenderbot failed, trying another free AI...');
+      return await getThirdAIResponse(userMessage);
     } catch (error) {
-      console.error('Alternative AI Error:', error);
-      return getFallbackResponse(userMessage);
+      console.error('❌ Alternative AI Error:', error);
+      return await getThirdAIResponse(userMessage);
     }
   };
 
-  const getFallbackResponse = (userMessage) => {
-    const message = userMessage.toLowerCase();
-    
-    // Enhanced rule-based responses
-    if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
-      return "Hello! 👋 Welcome to AutoDeals. I'm here to help you find your perfect car. What are you looking for today?";
-    } else if (message.includes('price') || message.includes('cost') || message.includes('budget')) {
-      return "Our inventory ranges from affordable daily drivers to luxury vehicles. 💰\n\nTypical price ranges:\n• Economy cars: $15,000 - $25,000\n• Mid-size sedans: $25,000 - $40,000\n• SUVs: $30,000 - $60,000\n• Luxury vehicles: $50,000+\n\nWhat's your budget range? I can help you find the best options!";
-    } else if (message.includes('suv') || message.includes('sedan') || message.includes('truck') || message.includes('sports')) {
-      return "Great choice! 🚗 We have excellent options in that category. Check out our Car Listings page to see all available vehicles with detailed specs and photos. Would you like to know about specific features or compare models?";
-    } else if (message.includes('electric') || message.includes('ev') || message.includes('hybrid')) {
-      return "We have eco-friendly options! 🌱⚡\n\nOur green vehicle lineup includes:\n• Full electric vehicles (EVs)\n• Plug-in hybrids\n• Traditional hybrids\n\nThey offer great fuel savings and environmental benefits. Would you like to know more about charging, range, or incentives?";
-    } else if (message.includes('financing') || message.includes('loan') || message.includes('payment')) {
-      return "We offer flexible financing options! 💳\n\n• Competitive interest rates\n• Multiple loan terms (36-72 months)\n• Trade-in evaluations\n• Special offers for qualified buyers\n\nOur finance team can work with your credit situation. Would you like to discuss monthly payment estimates?";
-    } else if (message.includes('test drive') || message.includes('visit') || message.includes('showroom')) {
-      return "We'd love to see you at our showroom! 🏢\n\nSchedule a test drive:\n📍 123 Auto Street, Car City\n📞 Call: +1 (555) 123-4567\n⏰ Mon-Fri: 9AM-6PM, Sat: 10AM-4PM\n\nYou can also visit our Order page to request a specific vehicle test drive!";
-    } else if (message.includes('contact') || message.includes('phone') || message.includes('email') || message.includes('reach')) {
-      return "Here's how to reach us! 📞\n\n� Phone: +1 (555) 123-4567\n📧 Email: info@autodeals.com\n📍 Address: 123 Auto Street, Car City\n⏰ Hours: Mon-Fri 9AM-6PM, Sat 10AM-4PM\n\nYou can also fill out our contact form for a quick response!";
-    } else if (message.includes('warranty') || message.includes('guarantee')) {
-      return "All our vehicles come with protection! 🛡️\n\n• Comprehensive warranty coverage\n• Extended warranty options\n• Certified pre-owned guarantees\n• 30-day exchange policy\n\nWe stand behind every vehicle we sell. Need details on a specific car?";
-    } else if (message.includes('trade') || message.includes('trade-in')) {
-      return "We accept trade-ins! 🔄\n\nGet the best value for your current vehicle:\n• Free appraisal\n• Competitive offers\n• Quick process\n• Apply trade value to your purchase\n\nBring your car by or describe it to us, and we'll give you an estimate!";
-    } else if (message.includes('thank') || message.includes('thanks')) {
-      return "You're very welcome! 😊 I'm here anytime you need help. Happy car shopping, and feel free to ask me anything else! 🚗✨";
-    } else if (message.includes('help') || message.includes('assist') || message.includes('can you')) {
-      return "I'm here to help with everything! 🤝\n\n✅ Browse our inventory\n✅ Compare cars and features\n✅ Pricing and financing info\n✅ Test drive scheduling\n✅ Trade-in valuations\n✅ Warranty details\n✅ Contact information\n\nWhat specific question can I answer for you?";
-    } else {
-      return "That's a great question! 🤔 I'd be happy to provide more specific information. Could you tell me more about what you're looking for? Are you interested in:\n\n• Viewing our car listings?\n• Learning about prices?\n• Scheduling a test drive?\n• Financing options?\n• Something else?\n\nJust let me know!";
+  const getThirdAIResponse = async (userMessage) => {
+    try {
+      console.log('🔄 Trying third AI option: GPT-2...');
+      // Try GPT-2 as third option (completely free, no API key needed)
+      const response = await fetch('https://api-inference.huggingface.co/models/gpt2', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          inputs: `Customer: ${userMessage}\nAutoDeals AI Assistant:`,
+          parameters: {
+            max_length: 150,
+            temperature: 0.8,
+            return_full_text: false
+          }
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (Array.isArray(data) && data.length > 0 && data[0].generated_text) {
+          const aiText = data[0].generated_text.trim();
+          console.log('✅ GPT-2 AI Response:', aiText);
+          return aiText;
+        }
+      }
+      
+      // Last resort: intelligent dynamic response
+      console.log('⚠️ All AI APIs unavailable, generating intelligent response...');
+      return getIntelligentResponse(userMessage);
+    } catch (error) {
+      console.error('❌ Third AI Error:', error);
+      return getIntelligentResponse(userMessage);
     }
   };
+
+  const getIntelligentResponse = (userMessage) => {
+    console.log('🤖 Using intelligent response generator for:', userMessage);
+    const message = userMessage.toLowerCase();
+    
+    // AI-style conversational responses (more dynamic than static)
+    const responses = {
+      greeting: [
+        "Hello! 👋 I'm your AI assistant at AutoDeals. I'm here to help you discover the perfect vehicle. What brings you here today?",
+        "Hi there! Welcome to AutoDeals! I'm an AI trained to help with all your car needs. How can I assist you?",
+        "Hey! Great to see you! I'm AutoDeals' AI assistant. Tell me, what kind of vehicle are you dreaming about?"
+      ],
+      general: [
+        `I'd love to help you with "${userMessage}"! At AutoDeals, we offer comprehensive automotive solutions. Could you tell me more specifically what you're looking for - pricing, financing, or vehicle options?`,
+        `That's an interesting question about "${userMessage}"! Let me help you with that. Are you interested in browsing our inventory, learning about financing, or scheduling a test drive?`,
+        `Great question! Regarding "${userMessage}", I can provide detailed information. Would you like to know about our car listings, payment options, or dealership services?`
+      ]
+    };
+    
+    // Check for greetings
+    if (message.match(/^(hi|hello|hey|greetings|good morning|good afternoon)/i)) {
+      return responses.greeting[Math.floor(Math.random() * responses.greeting.length)];
+    }
+    
+    // Return contextual general response
+    return responses.general[Math.floor(Math.random() * responses.general.length)];
+  };
+
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
