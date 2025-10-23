@@ -15,8 +15,12 @@ const ChatBot = () => {
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [conversationHistory, setConversationHistory] = useState([]);
+  const [position, setPosition] = useState({ x: null, y: null });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const buttonRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -32,8 +36,80 @@ const ChatBot = () => {
     }
   }, [isOpen]);
 
+  // Initialize button position
+  useEffect(() => {
+    if (position.x === null && position.y === null) {
+      // Default position: bottom right
+      const defaultX = window.innerWidth - 90; // 2rem from right + button width
+      const defaultY = window.innerHeight - 150; // 90px from bottom
+      setPosition({ x: defaultX, y: defaultY });
+    }
+  }, [position]);
+
+  // Handle drag start
+  const handleDragStart = (e) => {
+    if (isOpen) return; // Don't allow dragging when chat is open
+    
+    setIsDragging(true);
+    
+    const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+    
+    setDragOffset({
+      x: clientX - position.x,
+      y: clientY - position.y
+    });
+  };
+
+  // Handle drag move
+  const handleDragMove = (e) => {
+    if (!isDragging) return;
+    
+    e.preventDefault();
+    
+    const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+    
+    const newX = clientX - dragOffset.x;
+    const newY = clientY - dragOffset.y;
+    
+    // Keep button within viewport bounds
+    const buttonSize = 60;
+    const maxX = window.innerWidth - buttonSize;
+    const maxY = window.innerHeight - buttonSize;
+    
+    setPosition({
+      x: Math.max(0, Math.min(newX, maxX)),
+      y: Math.max(0, Math.min(newY, maxY))
+    });
+  };
+
+  // Handle drag end
+  const handleDragEnd = () => {
+    setIsDragging(false);
+  };
+
+  // Add event listeners for drag
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleDragMove);
+      window.addEventListener('mouseup', handleDragEnd);
+      window.addEventListener('touchmove', handleDragMove, { passive: false });
+      window.addEventListener('touchend', handleDragEnd);
+      
+      return () => {
+        window.removeEventListener('mousemove', handleDragMove);
+        window.removeEventListener('mouseup', handleDragEnd);
+        window.removeEventListener('touchmove', handleDragMove);
+        window.removeEventListener('touchend', handleDragEnd);
+      };
+    }
+  }, [isDragging, dragOffset, position]);
+
   const toggleChat = () => {
-    setIsOpen(!isOpen);
+    if (!isDragging) {
+      setIsOpen(!isOpen);
+    }
   };
 
   const getAIResponse = async (userMessage) => {
@@ -237,9 +313,20 @@ Assistant Response:`;
     <>
       {/* Floating Chat Button */}
       <button 
-        className={`chat-bot-button ${isOpen ? 'open' : ''}`}
+        ref={buttonRef}
+        className={`chat-bot-button ${isOpen ? 'open' : ''} ${isDragging ? 'dragging' : ''}`}
+        style={{
+          left: position.x !== null ? `${position.x}px` : 'auto',
+          top: position.y !== null ? `${position.y}px` : 'auto',
+          right: position.x !== null ? 'auto' : '2rem',
+          bottom: position.y !== null ? 'auto' : '90px',
+          cursor: isDragging ? 'grabbing' : (isOpen ? 'pointer' : 'grab')
+        }}
         onClick={toggleChat}
+        onMouseDown={handleDragStart}
+        onTouchStart={handleDragStart}
         aria-label="Toggle chat"
+        title="Drag to move, click to open chat"
       >
         {isOpen ? <FaTimes /> : <FaComments />}
         {!isOpen && <span className="chat-pulse"></span>}
