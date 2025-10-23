@@ -429,6 +429,10 @@
     width: 55px;
     height: 55px;
     font-size: 1.6rem;
+    right: 1.5rem !important;
+    bottom: 90px !important;
+    left: auto !important;
+    top: auto !important;
   }
 
   .chat-bot-panel {
@@ -453,6 +457,10 @@
     width: 50px;
     height: 50px;
     font-size: 1.5rem;
+    right: 1rem !important;
+    bottom: 80px !important;
+    left: auto !important;
+    top: auto !important;
   }
 
   .chat-bot-header {
