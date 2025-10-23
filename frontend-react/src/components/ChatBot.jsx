@@ -178,7 +178,7 @@ COMMUNICATION STYLE:
 - Show genuine enthusiasm about cars and helping customers
 - Use contractions (I'm, you're, we've, can't, don't) to sound natural
 - Express personality - be friendly, understanding, and personable
-- Use emojis sparingly (≡ƒÿè, ≡ƒæì, ≡ƒÜù, Γ£¿) to add warmth
+- Use emojis sparingly (😊, 👍, 🚗, ✨) to add warmth
 - Be concise but friendly (2-4 sentences usually)
 
 AutoDeals Information (mention naturally when relevant):
@@ -191,11 +191,11 @@ AutoDeals Information (mention naturally when relevant):
 RESPONSE GUIDELINES:
 For CAR-RELATED questions: Answer helpfully and enthusiastically
 For NON-CAR questions: Say something like:
-- "Hey, I appreciate the question, but I'm here specifically to help with cars and AutoDeals services! ≡ƒÜù Is there anything about vehicles or car shopping I can help you with?"
-- "That's an interesting topic, but I'm your car specialist! ≡ƒÿè Let's keep our chat focused on vehicles and how I can help you find your perfect car. What are you looking for?"
-- "I'd love to help, but my expertise is all about cars! ≡ƒÜù Ask me anything about our inventory, financing, or what vehicle would be perfect for you!"
+- "Hey, I appreciate the question, but I'm here specifically to help with cars and AutoDeals services! 🚗 Is there anything about vehicles or car shopping I can help you with?"
+- "That's an interesting topic, but I'm your car specialist! 😊 Let's keep our chat focused on vehicles and how I can help you find your perfect car. What are you looking for?"
+- "I'd love to help, but my expertise is all about cars! 🚗 Ask me anything about our inventory, financing, or what vehicle would be perfect for you!"
 
-Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-car topics back to automotive assistance! ∩┐╜`
+Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-car topics back to automotive assistance!`
         }
       ];
 
@@ -291,29 +291,29 @@ Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-ca
     
     // Enhanced rule-based responses
     if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
-      return "Hello! ≡ƒæï Welcome to AutoDeals. I'm here to help you find your perfect car. What are you looking for today?";
+      return "Hello! 👋 Welcome to AutoDeals. I'm here to help you find your perfect car. What are you looking for today?";
     } else if (message.includes('price') || message.includes('cost') || message.includes('budget')) {
-      return "Our inventory ranges from affordable daily drivers to luxury vehicles. ≡ƒÆ░\n\nTypical price ranges:\nΓÇó Economy cars: $15,000 - $25,000\nΓÇó Mid-size sedans: $25,000 - $40,000\nΓÇó SUVs: $30,000 - $60,000\nΓÇó Luxury vehicles: $50,000+\n\nWhat's your budget range? I can help you find the best options!";
+      return "Our inventory ranges from affordable daily drivers to luxury vehicles. 💰\n\nTypical price ranges:\n• Economy cars: $15,000 - $25,000\n• Mid-size sedans: $25,000 - $40,000\n• SUVs: $30,000 - $60,000\n• Luxury vehicles: $50,000+\n\nWhat's your budget range? I can help you find the best options!";
     } else if (message.includes('suv') || message.includes('sedan') || message.includes('truck') || message.includes('sports')) {
-      return "Great choice! ≡ƒÜù We have excellent options in that category. Check out our Car Listings page to see all available vehicles with detailed specs and photos. Would you like to know about specific features or compare models?";
+      return "Great choice! 🚗 We have excellent options in that category. Check out our Car Listings page to see all available vehicles with detailed specs and photos. Would you like to know about specific features or compare models?";
     } else if (message.includes('electric') || message.includes('ev') || message.includes('hybrid')) {
-      return "We have eco-friendly options! ≡ƒî▒ΓÜí\n\nOur green vehicle lineup includes:\nΓÇó Full electric vehicles (EVs)\nΓÇó Plug-in hybrids\nΓÇó Traditional hybrids\n\nThey offer great fuel savings and environmental benefits. Would you like to know more about charging, range, or incentives?";
+      return "We have eco-friendly options! 🌱⚡\n\nOur green vehicle lineup includes:\n• Full electric vehicles (EVs)\n• Plug-in hybrids\n• Traditional hybrids\n\nThey offer great fuel savings and environmental benefits. Would you like to know more about charging, range, or incentives?";
     } else if (message.includes('financing') || message.includes('loan') || message.includes('payment')) {
-      return "We offer flexible financing options! ≡ƒÆ│\n\nΓÇó Competitive interest rates\nΓÇó Multiple loan terms (36-72 months)\nΓÇó Trade-in evaluations\nΓÇó Special offers for qualified buyers\n\nOur finance team can work with your credit situation. Would you like to discuss monthly payment estimates?";
+      return "We offer flexible financing options! 💳\n\n• Competitive interest rates\n• Multiple loan terms (36-72 months)\n• Trade-in evaluations\n• Special offers for qualified buyers\n\nOur finance team can work with your credit situation. Would you like to discuss monthly payment estimates?";
     } else if (message.includes('test drive') || message.includes('visit') || message.includes('showroom')) {
-      return "We'd love to see you at our showroom! ≡ƒÅó\n\nSchedule a test drive:\n≡ƒôì 123 Auto Street, Car City\n≡ƒô₧ Call: +1 (555) 123-4567\nΓÅ░ Mon-Fri: 9AM-6PM, Sat: 10AM-4PM\n\nYou can also visit our Order page to request a specific vehicle test drive!";
+      return "We'd love to see you at our showroom! 🏢\n\nSchedule a test drive:\n📍 123 Auto Street, Car City\n📞 Call: +1 (555) 123-4567\n⏰ Mon-Fri: 9AM-6PM, Sat: 10AM-4PM\n\nYou can also visit our Order page to request a specific vehicle test drive!";
     } else if (message.includes('contact') || message.includes('phone') || message.includes('email') || message.includes('reach')) {
-      return "Here's how to reach us! ≡ƒô₧\n\n≡ƒô₧ Phone: +1 (555) 123-4567\n≡ƒôº Email: info@autodeals.com\n≡ƒôì Address: 123 Auto Street, Car City\nΓÅ░ Hours: Mon-Fri 9AM-6PM, Sat 10AM-4PM\n\nYou can also fill out our contact form for a quick response!";
+      return "Here's how to reach us! 📞\n\n📞 Phone: +1 (555) 123-4567\n📧 Email: info@autodeals.com\n📍 Address: 123 Auto Street, Car City\n⏰ Hours: Mon-Fri 9AM-6PM, Sat 10AM-4PM\n\nYou can also fill out our contact form for a quick response!";
     } else if (message.includes('warranty') || message.includes('guarantee')) {
-      return "All our vehicles come with protection! ≡ƒ¢í∩╕Å\n\nΓÇó Comprehensive warranty coverage\nΓÇó Extended warranty options\nΓÇó Certified pre-owned guarantees\nΓÇó 30-day exchange policy\n\nWe stand behind every vehicle we sell. Need details on a specific car?";
+      return "All our vehicles come with protection! 🛡️\n\n• Comprehensive warranty coverage\n• Extended warranty options\n• Certified pre-owned guarantees\n• 30-day exchange policy\n\nWe stand behind every vehicle we sell. Need details on a specific car?";
     } else if (message.includes('trade') || message.includes('trade-in')) {
-      return "We accept trade-ins! ≡ƒöä\n\nGet the best value for your current vehicle:\nΓÇó Free appraisal\nΓÇó Competitive offers\nΓÇó Quick process\nΓÇó Apply trade value to your purchase\n\nBring your car by or describe it to us, and we'll give you an estimate!";
+      return "We accept trade-ins! 🔄\n\nGet the best value for your current vehicle:\n• Free appraisal\n• Competitive offers\n• Quick process\n• Apply trade value to your purchase\n\nBring your car by or describe it to us, and we'll give you an estimate!";
     } else if (message.includes('thank') || message.includes('thanks')) {
-      return "You're very welcome! ≡ƒÿè I'm here anytime you need help. Happy car shopping, and feel free to ask me anything else! ≡ƒÜùΓ£¿";
+      return "You're very welcome! 😊 I'm here anytime you need help. Happy car shopping, and feel free to ask me anything else! 🚗✨";
     } else if (message.includes('help') || message.includes('assist') || message.includes('can you')) {
-      return "I'm here to help with everything! ≡ƒñ¥\n\nΓ£à Browse our inventory\nΓ£à Compare cars and features\nΓ£à Pricing and financing info\nΓ£à Test drive scheduling\nΓ£à Trade-in valuations\nΓ£à Warranty details\nΓ£à Contact information\n\nWhat specific question can I answer for you?";
+      return "I'm here to help with everything! 🤝\n\n✅ Browse our inventory\n✅ Compare cars and features\n✅ Pricing and financing info\n✅ Test drive scheduling\n✅ Trade-in valuations\n✅ Warranty details\n✅ Contact information\n\nWhat specific question can I answer for you?";
     } else {
-      return "That's a great question! ≡ƒñö I'd be happy to provide more specific information. Could you tell me more about what you're looking for? Are you interested in:\n\nΓÇó Viewing our car listings?\nΓÇó Learning about prices?\nΓÇó Scheduling a test drive?\nΓÇó Financing options?\nΓÇó Something else?\n\nJust let me know!";
+      return "That's a great question! 🤔 I'd be happy to provide more specific information. Could you tell me more about what you're looking for? Are you interested in:\n\n• Viewing our car listings?\n• Learning about prices?\n• Scheduling a test drive?\n• Financing options?\n• Something else?\n\nJust let me know!";
     }
   };
 
