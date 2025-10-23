@@ -1,7 +1,6 @@
 /* Chat Bot Button */
 .chat-bot-button {
   position: fixed;
-  right: 2rem;
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -430,35 +429,20 @@
     font-size: 1.6rem;
   }
 
-  .chat-bot-button {
-    right: 1.5rem;
-    bottom: 90px;
-  }
-
   .chat-bot-panel {
     width: 100%;
-    right: 0;
-    left: 0;
-    bottom: -100%;
-    height: 85vh;
-    max-height: 600px;
-    border-radius: 24px 24px 0 0;
+    right: -100%;
+    height: 100vh;
+    border-radius: 0;
     border-left: none;
-    border-top: 2px solid rgba(245, 158, 11, 0.3);
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-    transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   .chat-bot-panel.open {
-    bottom: 0;
     right: 0;
   }
 
   .chat-bot-header {
-    border-radius: 24px 24px 0 0;
-    border-top-left-radius: 22px;
-    border-top-right-radius: 22px;
+    border-radius: 0;
   }
 }
 
@@ -467,12 +451,6 @@
     width: 50px;
     height: 50px;
     font-size: 1.5rem;
-    right: 1rem;
-    bottom: 80px;
-  }
-
-  .chat-bot-panel {
-    height: 90vh;
   }
 
   .chat-bot-header {
