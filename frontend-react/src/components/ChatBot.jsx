@@ -109,17 +109,15 @@ const ChatBot = () => {
 
   const getAIResponse = async (userMessage) => {
     try {
-      // Using Hugging Face Inference API with advanced Mistral model
-      const HF_API_URL = 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2';
+      // Using DeepSeek API - Add your API key in .env file as VITE_DEEPSEEK_API_KEY
+      const DEEPSEEK_API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY || '';
+      const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
       
-      // Build conversation context
-      const conversationContext = conversationHistory
-        .slice(-6) // Last 3 exchanges (6 messages)
-        .map(m => `${m.sender === 'user' ? 'User' : 'Assistant'}: ${m.text}`)
-        .join('\n');
-
-      // Enhanced system prompt with better instructions
-      const systemPrompt = `You are AutoDeals AI Assistant, an intelligent and knowledgeable virtual assistant. You excel at answering ANY question clearly, accurately, and conversationally.
+      // Build conversation context for better continuity
+      const conversationMessages = [
+        {
+          role: 'system',
+          content: `You are AutoDeals AI Assistant, an intelligent and knowledgeable virtual assistant for a premium car dealership. You excel at answering ANY question clearly, accurately, and conversationally.
 
 AutoDeals Information (mention when relevant):
 - Premium car dealership specializing in new & used vehicles
@@ -135,58 +133,57 @@ Your capabilities:
 - Engage in natural, friendly conversation
 - Give detailed, informative responses
 
-Conversation so far:
-${conversationContext}
+Be helpful, accurate, and conversational. Keep responses concise (2-4 sentences) but informative.`
+        }
+      ];
 
-Current User Question: ${userMessage}
+      // Add conversation history (last 6 messages)
+      conversationHistory.slice(-6).forEach(msg => {
+        conversationMessages.push({
+          role: msg.sender === 'user' ? 'user' : 'assistant',
+          content: msg.text
+        });
+      });
 
-Provide a helpful, accurate, and engaging response (2-4 sentences). Be natural and conversational:`;
+      // Add current user message
+      conversationMessages.push({
+        role: 'user',
+        content: userMessage
+      });
 
-      const response = await fetch(HF_API_URL, {
+      const response = await fetch(DEEPSEEK_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
         },
         body: JSON.stringify({
-          inputs: systemPrompt,
-          parameters: {
-            max_new_tokens: 300,
-            temperature: 0.8,
-            top_p: 0.92,
-            repetition_penalty: 1.15,
-            do_sample: true,
-            return_full_text: false
-          }
+          model: 'deepseek-chat',
+          messages: conversationMessages,
+          temperature: 0.7,
+          max_tokens: 300,
+          top_p: 0.95
         })
       });
 
       if (!response.ok) {
+        console.log('DeepSeek API error, falling back to alternative');
         return await getAlternativeAIResponse(userMessage);
       }
 
       const data = await response.json();
       
-      if (data && data[0] && data[0].generated_text) {
-        let generatedText = data[0].generated_text.trim();
+      if (data && data.choices && data.choices[0] && data.choices[0].message) {
+        const generatedText = data.choices[0].message.content.trim();
         
-        // Advanced text cleaning
-        generatedText = generatedText
-          .replace(/^(Assistant Response:|Assistant:|Response:|Answer:)\s*/i, '')
-          .replace(/^["']|["']$/g, '') // Remove quotes
-          .replace(/\n{3,}/g, '\n\n') // Clean excessive newlines
-          .trim();
-        
-        // If response is too short or empty, try alternative
-        if (generatedText.length < 20) {
-          return await getAlternativeAIResponse(userMessage);
+        if (generatedText.length > 10) {
+          return generatedText;
         }
-        
-        return generatedText;
       }
       
-      throw new Error('Invalid AI response');
+      throw new Error('Invalid DeepSeek response');
     } catch (error) {
-      console.error('Primary AI Error:', error);
+      console.error('DeepSeek AI Error:', error);
       return await getAlternativeAIResponse(userMessage);
     }
   };
