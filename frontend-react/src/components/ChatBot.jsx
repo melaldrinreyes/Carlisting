@@ -109,9 +109,18 @@ const ChatBot = () => {
 
   const getAIResponse = async (userMessage) => {
     try {
-      // Using DeepSeek API - Add your API key in .env file as VITE_DEEPSEEK_API_KEY
-      const DEEPSEEK_API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY || '';
-      const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
+      // Using OpenRouter API - Add your API key in .env file as VITE_OPENROUTER_API_KEY
+      const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || '';
+      const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
+      
+      // Check if API key is available
+      if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY === 'your-openrouter-api-key-here') {
+        console.log('OpenRouter API key not configured, using fallback');
+        return await getAlternativeAIResponse(userMessage);
+      }
+      
+      console.log('Using OpenRouter API...');
+      console.log('API Key loaded:', OPENROUTER_API_KEY ? 'Yes (length: ' + OPENROUTER_API_KEY.length + ')' : 'No');
       
       // Build conversation context for better continuity
       const conversationMessages = [
@@ -151,27 +160,32 @@ Be helpful, accurate, and conversational. Keep responses concise (2-4 sentences)
         content: userMessage
       });
 
-      const response = await fetch(DEEPSEEK_API_URL, {
+      const response = await fetch(OPENROUTER_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+          'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+          'HTTP-Referer': window.location.origin,
+          'X-Title': 'AutoDeals ChatBot'
         },
         body: JSON.stringify({
-          model: 'deepseek-chat',
+          model: 'openai/gpt-3.5-turbo',
           messages: conversationMessages,
           temperature: 0.7,
-          max_tokens: 300,
-          top_p: 0.95
+          max_tokens: 300
         })
       });
 
+      console.log('API Response status:', response.status, response.statusText);
+
       if (!response.ok) {
-        console.log('DeepSeek API error, falling back to alternative');
+        const errorData = await response.text();
+        console.error('OpenRouter API error:', response.status, errorData);
         return await getAlternativeAIResponse(userMessage);
       }
 
       const data = await response.json();
+      console.log('OpenRouter response received');
       
       if (data && data.choices && data.choices[0] && data.choices[0].message) {
         const generatedText = data.choices[0].message.content.trim();
@@ -181,9 +195,9 @@ Be helpful, accurate, and conversational. Keep responses concise (2-4 sentences)
         }
       }
       
-      throw new Error('Invalid DeepSeek response');
+      throw new Error('Invalid OpenRouter response');
     } catch (error) {
-      console.error('DeepSeek AI Error:', error);
+      console.error('OpenRouter AI Error:', error);
       return await getAlternativeAIResponse(userMessage);
     }
   };
