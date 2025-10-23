@@ -217,25 +217,36 @@ Remember: You ONLY discuss cars, vehicles, and AutoDeals. Always redirect non-ca
 
       // Use SDK to make the API call with FREE model
       console.log('Calling OpenRouter API with FREE model...');
-      const completion = await openai.chat.completions.create({
-        model: 'meta-llama/llama-3.2-3b-instruct:free', // FREE Meta LLaMA model - highly reliable!
-        messages: conversationMessages,
-        temperature: 0.7,
-        max_tokens: 300,
-        stream: false
-      });
+      
+      // Create a timeout promise
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('API request timeout after 30 seconds')), 30000)
+      );
+      
+      // Race between API call and timeout
+      const completion = await Promise.race([
+        openai.chat.completions.create({
+          model: 'meta-llama/llama-3.2-3b-instruct:free', // FREE Meta LLaMA model - highly reliable!
+          messages: conversationMessages,
+          temperature: 0.7,
+          max_tokens: 300,
+          stream: false
+        }),
+        timeoutPromise
+      ]);
 
       console.log('OpenRouter SDK response received:', completion);
       
       if (completion && completion.choices && completion.choices[0] && completion.choices[0].message) {
-        const generatedText = completion.choices[0].message.content.trim();
+        const generatedText = completion.choices[0].message.content;
         console.log('AI Response:', generatedText);
         
-        if (generatedText.length > 10) {
-          return generatedText;
+        if (generatedText && generatedText.trim().length > 0) {
+          return generatedText.trim();
         }
       }
       
+      console.log('No valid response from primary AI, trying fallback...');
       throw new Error('Invalid OpenRouter response - no valid content received');
     } catch (error) {
       console.error('OpenRouter SDK Error Details:', {
